@@ -6,9 +6,8 @@
 ##### Team
 
 - Almeida-Domingues, Joao #2334590D
-- Cai, Yue
 - Wonseok, Cho #2336526C
-- Peng, Cheng
+- Peng, Cheng #2358834p
 
 
 ## Local Setup

@@ -5,7 +5,11 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from WAD2app.forms import UserForm, UserProfileForm, UserUpdateForm, UserProfileUpdateForm
+import filters
 
+def dogs(request):
+    f = ProductFilter(request.GET, queryset=Dogs.objects.all())
+    return render(request, 'wad2App/dogs.html', {'filter': f})
 
 
 # signup

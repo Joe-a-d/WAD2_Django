@@ -13,3 +13,8 @@
         {{ obj.name }} - ${{ obj.price }}<br />
     {% endfor %}
 {% endblock %}
+
+### URLS
+
+newDog : {% url 'wad2App:addDog'%} #staff only
+eachDog : {% url 'wad2App:dog' dog.pk %}

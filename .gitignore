@@ -41,4 +41,4 @@ db.sqlite3
 db.sqlite3-journal
 pyre/
 .DS_Store
-
+WAD2/secrets.py

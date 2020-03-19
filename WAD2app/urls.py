@@ -12,9 +12,10 @@ urlpatterns = [
     path('profile/', views.profile, name='profile'),
     path('dashboard/', views.dashboard, name=''),
     path('dogs/', views.dogs, name='dogs'),
-    path('dogs/<int:dog_id>', view.dog, name='dog'),
-    path('<int:dog_id>/favourite/', views.favourite, name='favourite'),
-    path('<int:dog_id>/adopt/', views.adopt, name='adopt'),
+    path('newDog/', views.addDog, name='addDog'),
+    path('dogs/<int:pk>/', view.dog, name='dog'),
+    path('<int:pk>/favourite/', views.favourite, name='favourite'),
+    path('<int:pk>/adopt/', views.adopt, name='adopt'),
     path('forgotPassword/', auth_views.PasswordResetView.as_view(template_name='resetPassword.html', success_url=LOGIN_URL), name='resetPassword'),
     path('profile/changePassword', auth_views.PasswordChangeView.as_view(template_name='changePassword.html', success_url='profile/',post_reset_login=True,), name='changePassword'),
 

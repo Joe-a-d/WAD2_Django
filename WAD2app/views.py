@@ -4,8 +4,8 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from WAD2app.forms import UserForm, UserProfileForm, UserUpdateForm, UserProfileUpdateForm
-import filters
+from .forms import UserProfileForm, UserPrefForm
+from .filters import *
 
 def dogs(request):
     f = ProductFilter(request.GET, queryset=Dogs.objects.all())
@@ -70,9 +70,35 @@ def editProfile(request):
 
     return render(request, 'users/profile.html', context)
 
-def calcScore():
-    # iterate through userPreferences & dogTraits
-    # counter++ if in uP & dog
-    # save as dog attribute score : {userId : (score1, score2), ...}
-    # retrieve on render with dog.score[userId][score1]/[score2]
-    # use score1 to display on dog profiles and score2 for staff/applications
+def about(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def contact(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def donate(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def login(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def profile(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def dashboard(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def addDog(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def dog(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def favourite(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def adopt(request):
+    return HttpResponse('<h1>TEST</h1>')
+
+def home(request):
+    return HttpResponse('<h1>TEST</h1>')

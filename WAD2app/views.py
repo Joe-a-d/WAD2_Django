@@ -1,14 +1,15 @@
 from django.http import HttpResponse
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .forms import UserProfileForm, UserPrefForm
+from .forms import *
 from .filters import *
 
 def dogs(request):
-    f = ProductFilter(request.GET, queryset=Dogs.objects.all())
+    f = DogFilter(request.GET, queryset=Dogs.objects.all())
     return render(request, 'wad2App/dogs.html', {'filter': f})
 
 
@@ -43,7 +44,7 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request, 'wad2App/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    return render(request, 'wad2App/users/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 # edit profile
 
@@ -68,19 +69,49 @@ def editProfile(request):
         'profile_form': profile_form
     }
 
-    return render(request, 'users/profile.html', context)
+    return render(request, 'wad2App/users/profile.html', context)
 
 def about(request):
-    return HttpResponse('<h1>TEST</h1>')
-
-def contact(request):
-    return HttpResponse('<h1>TEST</h1>')
+    if request.method == 'GET':
+        form = ContactForm()
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            form.save()
+            try:
+                send_mail(subject, message, email)
+            except BadHeaderError:
+                messages.error(request, 'Bad header')
+                return render(request, 'about.html', {'form': form})
+            messages.success(request, 'Thanks for getting in touch!')
+            return redirect('wad2App/about.html')
+    return render(request, "wad2App/about.html", {'form': form})
 
 def donate(request):
-    return HttpResponse('<h1>TEST</h1>')
+    return render(request, "wad2App/donate.html")
 
 def login(request):
-    return HttpResponse('<h1>TEST</h1>')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                login(request, user)
+                return redirect(reverse('wad2App:profile'))
+            else:
+                messages.error(request, "We couldn't log you in. Please contact us directly")
+                return redirect('wad2App/about.html')
+        else:
+            print(f'Invalid login details: {username}, {password}')
+            return render(request, 'wad2App/login.html')
+    else:
+        return render(request, 'rango/login.html')
+
 
 def profile(request):
     return HttpResponse('<h1>TEST</h1>')

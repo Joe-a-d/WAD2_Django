@@ -7,7 +7,6 @@ app_name = 'WAD2app'
 
 urlpatterns = [
     path('about/' , views.about, name='about') ,
-    path('contact/', views.contact, name='contact'),
     path('donate/', views.donate, name='donate'),
     path('login/', views.login, name='login'),
     path('register/', views.register, name='register'),

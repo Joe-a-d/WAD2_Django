@@ -15,15 +15,17 @@ ENERGY = [("H", "Live Wire"), ("M", "Average"), ("L", "Couch Potato")]
 class Dog(models.Model):
 
     name = models.CharField(max_length=20)
-    size = models.CharField( max_length=10,choices=SIZES, default="ANY", blank=True, null=True)
+    image = models.ImageField (upload_to='dogImages' , default=settings.STATIC_URL+'dogImg')
+    size = models.CharField( max_length=10,choices=SIZES, default="ANY",)
     breed = models.CharField(max_length=20)
-    age = models.CharField(max_length=10,choices=AGES, blank=True, null=True)
-    gender = models.CharField(max_length=10, choices=GENDERS, blank=True, null=True)
-    houseTrained = models.NullBooleanField( blank=True, null=True)
-    energyLevel = models.CharField(max_length=20,choices=ENERGY, blank=True, null=True)
+    age = models.CharField(max_length=10,choices=AGES,)
+    gender = models.CharField(max_length=10, choices=GENDERS,)
+    houseTrained = models.NullBooleanField()
+    energyLevel = models.CharField(max_length=20,choices=ENERGY,)
 
     isAvailable = models.BooleanField(default=True)
     isReserved = models.BooleanField(default=False)
+    score = models.ManyToManyField(UserPref, through='Scores',through_fields=('dog', 'user'), blank=True, null=True)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -33,19 +35,21 @@ class UserProfile(models.Model):
     address = models.CharField( max_length=300)
     phone = models.IntegerField( validators=[MaxLengthValidator(11)])
 
-#RELATIONS
-    favourites = models.ManyToManyField(Dog, related_name='favouritedBy')
+
 
 
 class UserPref(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    breed = models.CharField()
+    breed = models.CharField(max_length=20,)
     size = models.CharField( max_length=10,choices=SIZES, default="ANY", blank=True, null=True)
     age = models.CharField(max_length=10,choices=AGES, blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDERS, blank=True, null=True)
     houseTrained = models.NullBooleanField( blank=True, null=True)
     energyLevel = models.CharField(max_length=20,choices=ENERGY, blank=True, null=True)
+
+    #RELATIONS
+    favourites = models.ManyToManyField(Dog, related_name='favouritedBy', blank=True, null=True)
 
 
 class UserLife(models.Model):
@@ -80,6 +84,14 @@ class Event(models.Model):
 
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
 
-    title = models.CharField()
+    title = models.CharField(max_length=20,)
     start = models.DateTimeField()
     end = models.DateTimeField()
+
+class Scores(models.Model):
+    user = models.ForeignKey(UserPref, on_delete=models.CASCADE)
+    dog = models.ForeignKey(Dog, on_delete=models.CASCADE)
+    score = models.IntegerField()
+
+    class Meta:
+        unique_together=[('user', 'dog')]

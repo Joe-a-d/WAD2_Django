@@ -5,14 +5,33 @@ from django.contrib import messages
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from .forms import *
 from .filters import *
 
-def dogs(request):
-    f = DogFilter(request.GET, queryset=Dogs.objects.all())
-    return render(request, 'wad2App/dogs.html', {'filter': f})
+def home(request):
+    return render(request, 'WAD2app/home.html')
 
+def about(request):
+    if request.method == 'GET':
+        form = ContactForm()
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            subject = form.cleaned_data['subject']
+            email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            form.save()
+            try:
+                send_mail(subject, message, email)
+            except BadHeaderError:
+                messages.error(request, 'Bad header')
+                return render(request, 'about.html', {'form': form})
+            messages.success(request, 'Thanks for getting in touch!')
+            return redirect('wad2App/about.html')
+    return render(request, "wad2App/about.html", {'form': form})
 
+##################### USER ####################
 # signup
 def register(request):
     registered = False
@@ -71,24 +90,6 @@ def editProfile(request):
 
     return render(request, 'wad2App/users/profile.html', context)
 
-def about(request):
-    if request.method == 'GET':
-        form = ContactForm()
-    else:
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            subject = form.cleaned_data['subject']
-            email = form.cleaned_data['email']
-            message = form.cleaned_data['message']
-            form.save()
-            try:
-                send_mail(subject, message, email)
-            except BadHeaderError:
-                messages.error(request, 'Bad header')
-                return render(request, 'about.html', {'form': form})
-            messages.success(request, 'Thanks for getting in touch!')
-            return redirect('wad2App/about.html')
-    return render(request, "wad2App/about.html", {'form': form})
 
 def donate(request):
     return render(request, "wad2App/donate.html")
@@ -110,26 +111,53 @@ def login(request):
             print(f'Invalid login details: {username}, {password}')
             return render(request, 'wad2App/login.html')
     else:
-        return render(request, 'rango/login.html')
+        return render(request, 'wad2App/login.html')
 
-
+@login_required
 def profile(request):
-    return HttpResponse('<h1>TEST</h1>')
+    return render(request, 'WAD2app/profile.html')
 
+@staff_member_required
 def dashboard(request):
-    return HttpResponse('<h1>TEST</h1>')
+    return render(request, 'WAD2app/dashboard.html')
 
+############ DOGS ##########
+@staff_member_required
 def addDog(request):
-    return HttpResponse('<h1>TEST</h1>')
+    if request.method == 'POST':
+        dog_form = DogForm(request.POST,request.FILES,)
+        if dog_form.is_valid():
+            name = request.POST.get('name')
+            dog_form.save()
+            messages.success(request, f'{name} has been added to the list of available dogs!')
+            return redirect('wad2App:dogs')
 
-def dog(request):
-    return HttpResponse('<h1>TEST</h1>')
+    else:
+        dog_form = DogForm()
 
-def favourite(request):
-    return HttpResponse('<h1>TEST</h1>')
+    return render(request, 'wad2App/addDog.html', context = {'dog_form': dog_form})
 
+
+def dog(request, pk):
+    dog = Dogs.objects.get(pk=pk)
+    return render(request, 'WAD2app/dog.html', {'dog': dog})
+
+def dogs(request):
+    f = DogFilter(request.GET, queryset=Dogs.objects.all())
+    return render(request, 'wad2App/dogs.html', {'filter': f})
+
+#############################
+
+@login_required
+def favourite(request, pk):
+    if request.method == 'POST':
+        UserPref.favourites.add(pk)
+        messages.success("Addes to your favourites!")
+        return redirect('wad2App:dogs')
+    else:
+        messages.error("We couldn't add it to your favourites. Please, try again")
+    return render(request,)
+
+@login_required
 def adopt(request):
-    return HttpResponse('<h1>TEST</h1>')
-
-def home(request):
     return HttpResponse('<h1>TEST</h1>')

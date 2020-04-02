@@ -1,9 +1,20 @@
-#urls in this page !! PROVISIONAL ONLY, SUBJECT TO TESTING !!
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title_block %} BASE {% endblock %} </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-about : {% url 'wad2App:about'%}
-contacts : {% url 'wad2App:contacts'%}
-help us : {% url 'wad2App:help%20us'%}
-dogs : {% url 'wad2App:dogs'%}
-login : {% url 'wad2App:login'%}
-profile : {% url 'wad2App:profile'%} #only when loggen in
-dashboard : {% url 'wad2App:dashboard'%} #only when logged in & is_staff
+</head>
+<body>
+    {% block body_block %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endblock %}
+</body>
+</html>

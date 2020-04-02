@@ -61,7 +61,7 @@ ROOT_URLCONF = 'WAD2.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATE_DIR,],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,6 +128,11 @@ LOGIN_URL = 'WAD2app:login'
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [STATIC_DIR , ]
+
+# Media Files
+
+MEDIA_ROOT = MEDIA_DIR
+MEDIA_URL = "/media/"
 
 #EMAIL
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

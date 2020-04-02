@@ -7,12 +7,19 @@ from django.contrib.auth.models import User
 #forms.ModelForm -> used to directly add or edit a Django model, inherits all from its model
 
 class UserProfileForm(forms.Form):
+    #PLACEHOLDER
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
         fields = ('email', 'password',)
 
+
+class UserLifeForm(forms.ModelForm):
+    #PLACEHOLDER
+    class Meta:
+        model = UserLife
+        exclude = []
 
 class UserPrefForm(forms.ModelForm):
     try:
@@ -24,7 +31,31 @@ class UserPrefForm(forms.ModelForm):
     age = forms.MultipleChoiceField()
     gender = forms.MultipleChoiceField()
     energyLevel = forms.MultipleChoiceField()
+    size = forms.MultipleChoiceField()
+    houseTrained = forms.BooleanField()
+
 
     class Meta:
         model = UserProfile
         exclude = []
+
+class DogForm(forms.ModelForm):
+    #PLACEHOLDER
+    class Meta:
+        model = Dog
+        exclude = []
+
+
+class dateForm(forms.Form):
+    start = models.DateTimeField()
+    # needs validation, popup FullCallendar prob better option
+
+class EventForm(forms.ModelForm):
+    #PLACEHOLDER
+    class Meta:
+        model = Event
+        exclude = []
+
+class ContactForm(forms.Form):
+    #PLACEHOLDER
+    pass

@@ -1,12 +1,5 @@
-#urls in this page !! PROVISIONAL ONLY, SUBJECT TO TESTING !!
+{% extends 'wad2App/base.html' %}
 
-register : {% url 'wad2App:register'%} #only when !logged in
-
-# django_messages
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+{% block body_block %}
+<h1>PLACEHOLDER</h1>
+{% endblock %}

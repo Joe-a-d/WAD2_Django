@@ -10,7 +10,7 @@ from .forms import *
 from .filters import *
 
 def home(request):
-    return render(request, 'WAD2app/home.html')
+    return render(request, 'wad2App/home.html')
 
 def about(request):
     if request.method == 'GET':
@@ -28,7 +28,7 @@ def about(request):
                 messages.error(request, 'Bad header')
                 return render(request, 'about.html', {'form': form})
             messages.success(request, 'Thanks for getting in touch!')
-            return redirect('wad2App/about.html')
+            return redirect('wad2App:about')
     return render(request, "wad2App/about.html", {'form': form})
 
 ##################### USER ####################
@@ -53,6 +53,8 @@ def register(request):
                 profile.picture = request.FILES['picture']
 
             profile.save()
+            dogs = Dog.objects.all()
+            calcNewUser(user, dogs, True)
             registered = True
             messages.success(request, 'Your account has been successfully created! ')
             return redirect('login')
@@ -63,7 +65,7 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request, 'wad2App/users/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    return render(request, 'wad2App/users/register', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 # edit profile
 
@@ -76,8 +78,11 @@ def editProfile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
+            dogs = Dog.objects.all()
+            calcNewUser(user, dogs, False)
+            registered = True
             messages.success(request, 'Your profile has been updated!')
-            return redirect('profile')
+            return redirect('wad2App/users/profile')
 
     else:
         user_form = UserUpdateForm(instance=request.user)
@@ -109,17 +114,17 @@ def login(request):
                 return redirect('wad2App/about.html')
         else:
             print(f'Invalid login details: {username}, {password}')
-            return render(request, 'wad2App/login.html')
+            return render(request, 'wad2App/users/login.html')
     else:
-        return render(request, 'wad2App/login.html')
+        return render(request, 'wad2App/users/login.html')
 
 @login_required
 def profile(request):
-    return render(request, 'WAD2app/profile.html')
+    return render(request, 'wad2App/users/profile.html')
 
 @staff_member_required
 def dashboard(request):
-    return render(request, 'WAD2app/dashboard.html')
+    return render(request, 'wad2App/staff/dashboard.html')
 
 ############ DOGS ##########
 @staff_member_required
@@ -132,30 +137,31 @@ def addDog(request):
             dog = dog_form.save().pk
             for person in people:
                 score = calc(person, dog)
-                dog.score.add(person, through_defaults={'score':score})
+                dog.scoresField.add(person, through_defaults={'score':score})
             messages.success(request, f'{name} has been added to the list of available dogs!')
-            return redirect('wad2App:dogs')
+            return redirect('wad2App/dogs/dogs.html')
 
     else:
         dog_form = DogForm()
 
-    return render(request, 'wad2App/addDog.html', context = {'dog_form': dog_form})
+    return render(request, 'wad2App/dogs/addDog.html', context = {'dog_form': dog_form})
 
 
 def dog(request, pk):
     dog = Dogs.objects.get(pk=pk)
-    return render(request, 'WAD2app/dog.html', {'dog': dog})
+    dateForm = dateForm()
+    return render(request, 'wad2App/dogs/dogs.html', {'dog': dog, 'dateForm': dateForm})
 
 def dogs(request):
-    f = DogFilter(request.GET, queryset=Dogs.objects.all())
-    return render(request, 'wad2App/dogs.html', {'filter': f})
+    f = DogFilter(request.GET, queryset=Dog.objects.all())
+    return render(request, 'wad2App/dogs/dogs.html', {'filter': f})
 
 #############################
 
 @login_required
 def favourite(request, pk):
     if request.method == 'POST':
-        UserPref.favourites.add(pk)
+        Dog.favourites.add(pk)
         messages.success("Added to favourites!")
         return redirect('wad2App:dogs')
     else:
@@ -163,8 +169,14 @@ def favourite(request, pk):
     return render(request,)
 
 @login_required
-def adopt(request):
-    return HttpResponse('<h1>TEST</h1>')
+def adopt(request,pk):
+    user = request.user
+    dog = Dogs.objects.get(pk=pk)
+    if request.method == "POST":
+        app = Application.create(user=user, dog=dog)
+        dateForm = dateForm(request.POST)
+        event = Event(application=app, title="First Visit" + " " + dog.name + " : " + user.name, start = dateForm.start)
+    return redirect(reverse('wad2App:dog'))
 
 ######################### HELPERS ##################
 
@@ -185,9 +197,11 @@ def calc(user, dog):
             score += 1
             continue
 
-    return score
-# 
-# def calcNewUser(user, dogs):
-#     for dog in dogs:
-#         score = calc(user, dog)
-#         dog.
+    return (score/len(fields))*100
+
+def calcNewUser(user, dogs, new):
+    for dog in dogs:
+        score = calc(user, dog)
+        if not new:
+            dog.scoresField.remove(user)
+        dog.scoresField.add(user, through_defaults={'score':score})

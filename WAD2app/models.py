@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MaxLengthValidator, MinValueValidator
+import datetime
 
 
 
@@ -67,8 +68,8 @@ class Dog(models.Model):
 
     isAvailable = models.BooleanField(default=True)
     isReserved = models.BooleanField(default=False)
-    scoresField = models.ManyToManyField(UserPref, through='Scores',through_fields=('dog', 'user'), blank=True, null=True)
-    favourites = models.ManyToManyField(User, related_name="favourites")
+    scoresField = models.ManyToManyField(UserPref, through='Scores',through_fields=('dog', 'user'),)
+    favourites = models.ManyToManyField(User, related_name="favourites",)
 
 ##################### OTHERS #####################
 
@@ -88,7 +89,7 @@ class Event(models.Model):
 
     title = models.CharField(max_length=20,)
     start = models.DateTimeField()
-    end = models.DateTimeField()
+    end = models.DateTimeField() #fix end, 30min gap, start returns datetime.datetime
 
 class Scores(models.Model):
     user = models.ForeignKey(UserPref, on_delete=models.CASCADE, related_name="hasScores")

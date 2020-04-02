@@ -124,11 +124,15 @@ def dashboard(request):
 ############ DOGS ##########
 @staff_member_required
 def addDog(request):
+    people = UserPref.objects.all()
     if request.method == 'POST':
         dog_form = DogForm(request.POST,request.FILES,)
         if dog_form.is_valid():
             name = request.POST.get('name')
-            dog_form.save()
+            dog = dog_form.save().pk
+            for person in people:
+                score = calc(person, dog)
+                dog.score.add(person, through_defaults={'score':score})
             messages.success(request, f'{name} has been added to the list of available dogs!')
             return redirect('wad2App:dogs')
 
@@ -152,7 +156,7 @@ def dogs(request):
 def favourite(request, pk):
     if request.method == 'POST':
         UserPref.favourites.add(pk)
-        messages.success("Addes to your favourites!")
+        messages.success("Added to favourites!")
         return redirect('wad2App:dogs')
     else:
         messages.error("We couldn't add it to your favourites. Please, try again")
@@ -161,3 +165,29 @@ def favourite(request, pk):
 @login_required
 def adopt(request):
     return HttpResponse('<h1>TEST</h1>')
+
+######################### HELPERS ##################
+
+def calc(user, dog):
+    fields = ["breed", "size", "age", "gender", "houseTrained", "energyLevel"]
+    score = 0
+
+    for field in fields:
+        try:
+            value = getattr(user,field)
+            if value == "Any":
+                score += 1
+                continue
+            elif value == getattr(dog,field):
+                score += 1
+# check only not null preferences , prevents skewed averages
+        except:
+            score += 1
+            continue
+
+    return score
+# 
+# def calcNewUser(user, dogs):
+#     for dog in dogs:
+#         score = calc(user, dog)
+#         dog.

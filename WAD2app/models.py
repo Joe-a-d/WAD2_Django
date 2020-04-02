@@ -12,20 +12,7 @@ AGES = [("PUP", "Puppy"), (2, "1-2"), (3, "2-5"), (4, "5+")]
 GENDERS = [("F", "Female"), ("M", "Male")]
 ENERGY = [("H", "Live Wire"), ("M", "Average"), ("L", "Couch Potato")]
 
-class Dog(models.Model):
 
-    name = models.CharField(max_length=20)
-    image = models.ImageField (upload_to='dogImages' , default=settings.STATIC_URL+'dogImg')
-    size = models.CharField( max_length=10,choices=SIZES, default="ANY",)
-    breed = models.CharField(max_length=20)
-    age = models.CharField(max_length=10,choices=AGES,)
-    gender = models.CharField(max_length=10, choices=GENDERS,)
-    houseTrained = models.NullBooleanField()
-    energyLevel = models.CharField(max_length=20,choices=ENERGY,)
-
-    isAvailable = models.BooleanField(default=True)
-    isReserved = models.BooleanField(default=False)
-    score = models.ManyToManyField(UserPref, through='Scores',through_fields=('dog', 'user'), blank=True, null=True)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -37,7 +24,7 @@ class UserProfile(models.Model):
 
 
 
-
+##################### USER #####################
 class UserPref(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -47,9 +34,6 @@ class UserPref(models.Model):
     gender = models.CharField(max_length=10, choices=GENDERS, blank=True, null=True)
     houseTrained = models.NullBooleanField( blank=True, null=True)
     energyLevel = models.CharField(max_length=20,choices=ENERGY, blank=True, null=True)
-
-    #RELATIONS
-    favourites = models.ManyToManyField(Dog, related_name='favouritedBy', blank=True, null=True)
 
 
 class UserLife(models.Model):
@@ -68,7 +52,25 @@ class UserLife(models.Model):
     dogOwner = models.NullBooleanField()
 
 
+##################### DOG #####################
 
+class Dog(models.Model):
+
+    name = models.CharField(max_length=20)
+    image = models.ImageField (upload_to='dogImages' , default=settings.STATIC_URL+'dogImg')
+    size = models.CharField( max_length=10,choices=SIZES, default="ANY",)
+    breed = models.CharField(max_length=20)
+    age = models.CharField(max_length=10,choices=AGES,)
+    gender = models.CharField(max_length=10, choices=GENDERS,)
+    houseTrained = models.NullBooleanField()
+    energyLevel = models.CharField(max_length=20,choices=ENERGY,)
+
+    isAvailable = models.BooleanField(default=True)
+    isReserved = models.BooleanField(default=False)
+    scoresField = models.ManyToManyField(UserPref, through='Scores',through_fields=('dog', 'user'), blank=True, null=True)
+    favourites = models.ManyToManyField(User, related_name="favourites")
+
+##################### OTHERS #####################
 
 class Application(models.Model):
 
@@ -89,7 +91,7 @@ class Event(models.Model):
     end = models.DateTimeField()
 
 class Scores(models.Model):
-    user = models.ForeignKey(UserPref, on_delete=models.CASCADE)
+    user = models.ForeignKey(UserPref, on_delete=models.CASCADE, related_name="hasScores")
     dog = models.ForeignKey(Dog, on_delete=models.CASCADE)
     score = models.IntegerField()
 

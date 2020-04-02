@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!-- {% load staticfiles %} -->
+
+<html lang="en-US">
+
+<head>
+    <!-- meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- BoostrapCDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- CSS Script -->
+    <link rel="stylesheet" type="text/css" href="base.css">
+    <!--{% static 'gliocas_app/css/base.css' %}"> -->
+
+    <!-- favicon-->
+    <link rel="icon" href="favicon.png">
+    <!--{% static 'gliocas_app/img/favicon.png' %}"> -->
+
+    <!-- mathjax LaTex-->
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML" async></script>
+
+    <!-- ajax -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'js/gliocas-ajax.js' %}"></script>
+
+
+    <title>
+        RightPet -
+        <!-- {% block title_block %} -->
+        Find a pet companion!
+        <!-- {% endblock %} -->
+    </title>
+</head>
+
+
+
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+        <a class="navbar-brand" href="#"> <img src="Logo.svg" style="height:30px; padding-left: 30px;"> </a>
+    
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Help</a>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="btn btn-outline-primary" id="seeTheAnimals">See the animals</button> </li>
+            <li class="nav-item ">
+              <button type="button" class="btn btn-primary href=" #" id="login">Login</button>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    
+      <div class="container" style="margin-top: 5%">
+        <!-- {% block body_block %} 
+
+        {% endblock %} -->
+        <h1>Help us</h1>
+        <img src="aboutus_title.png" style="max-height: 2em; margin-bottom: 2%;">
+        <br/>
+
+        <p>
+            Help running Rightpet with donations. We are a small organization with 30 people running a non-profit shelter. Rightpet needs your help to grow!
+
+            Help us transition to a higher level of partnership with a local animal shelter by supporting our transition to a local rescue.
+            
+            Help us achieve our dream of rescuing stray and homeless dogs in the Bay Area, by donating. We have a great program in place to place dogs into temporary foster homes.
+            
+            Donate to Rightpet, an organization providing temporary, pre-adoption housing to those with pets and homeless in our area.
+            
+            Donate to help us restore Rightpet's local, family-run operation, so that we can more effectively save more pets.
+        </p>
+        <br/>
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="margin-left: 45%"> 
+
+            <!-- Identify your business so that you can collect the payments. -->
+            <input type="hidden" name="business"
+                value="donations@kcparkfriends.org">
+        
+            <!-- Specify a Donate button. -->
+            <input type="hidden" name="cmd" value="_donations">
+        
+            <!-- Specify details about the contribution -->
+            <input type="hidden" name="item_name" value="Help RightPet">
+            <input type="hidden" name="item_number" value="Help RightPet">
+            <input type="hidden" name="currency_code" value="GBP">
+        
+            <!-- Display the payment button. -->
+            <input type="image" name="submit"
+            src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"
+            alt="Donate">
+            <img alt="" width="1" height="1"
+            src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
+        
+        </form>    
+    </div>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <div class="row footer-row">
+          <div class="col-2">
+            <img src="base_footerlogo.png">
+          </div>
+          <div class="col-7">
+            <!-- Copyright -->
+            <div class="footer-copyright text-center py-3">
+              © RightPet, 2020. All Rights Reserved.
+            </div>
+          </div>
+        </div>
+      </footer>
+
+    <!-- Boostrap Scripts -->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>

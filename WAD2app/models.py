@@ -41,6 +41,7 @@ class UserLife(models.Model):
     pENERGY = [("H", "Active"), ("M", "Average"), ("L", "Sedentary")]
     HOUSES = [("APT", "Apartment"), ("HO", "House")]
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     lifestyle = models.CharField(max_length=10,choices=pENERGY)
     timeAway = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(24)], )
     house = models.CharField(max_length=10,choices=HOUSES)

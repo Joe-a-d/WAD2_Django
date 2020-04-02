@@ -1,13 +1,58 @@
 {% extends 'wad2App/base.html' %}
+{% load static %}
 
+{% block title_block %}Catalogue{% endblock %}
 {% block body_block %}
-<h1> PLACEHOLDER </h1>
-    <form method="get">
-        # automatically generated filter form, needs styling
-        {{ filter.form.as_p }}
-        <input type="submit" />
-    </form>
-    {% for obj in filter.qs %}
-        {{ obj.name }} - ${{ obj.price }}<br />
-    {% endfor %}
+<h1>57 Dogs are waiting for a new home</h1>
+<img src="{% static 'wad2App/img/doglist_title.png' %}" style="max-height: 2em; margin-bottom: 2%;">
+
+<div class="row" style="margin-bottom:2%">
+    <div class="col-1 align-self-center">
+        <h5>Sort by</h5>
+    </div>
+    <div class="col align-self-center">
+        <div class="dropdown show">
+            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Popular
+            </a>
+
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="#">Recommended</a>
+                <a class="dropdown-item" href="#">Newest</a>
+                <a class="dropdown-item" href="#">Oldest</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-3 align-self-center"></div>
+    <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#filter" aria-expanded="false"
+        aria-controls="collapseExample">
+        Filter
+    </button>
+</div>
+<div class="collapse" id="filter">
+    <div class="card card-body">
+        Filter contents
+    </div>
+</div>
+
+<form method="get">
+    # automatically generated filter form, needs styling
+    {{ filter.form.as_p }}
+    <input type="submit" />
+</form>
+{% for obj in filter.qs %}
+{{ obj.name }} - ${{ obj.price }}<br />
+{% endfor %}
+
+<div class="card"
+    style="width: 18rem; border-radius: 20px; box-shadow: 0 20px 50px 10px rgba(26, 26, 26, 0.397); border-style: none;">
+    <img class="card-img-top" src="{% static 'wad2App/img/doglist_dogpic.png' %}"
+        style="border-top-left-radius: 20px; border-top-right-radius: 20px">
+    <div class="card-body">
+        <h3 class="card-title">Dog Name</h3>
+        <p class="card-body">Breed, age, and more</p>
+    </div>
+</div>
+
 {% endblock %}

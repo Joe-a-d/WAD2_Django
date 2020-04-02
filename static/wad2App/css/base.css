@@ -43,7 +43,6 @@ li {
 }
 
 .nav-link {
-    margin-top: 6%;
     font-size: 1rem;
     color: black !important;
     font-weight: 600;
@@ -79,6 +78,28 @@ li {
     font-size: 1.3em;
 }
 
+.btn-danger {
+    background-image: linear-gradient(to right, rgb(255, 74, 149), rgb(255, 110, 74)) !important;
+    border-color: rgb(255, 74, 149);
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.btn-danger:hover {
+    border-color: rgb(255, 110, 74) !important;
+}
+
+.btn-primary {
+    background-image: linear-gradient(to right, #837AFC, #83E6FC) !important;
+    border-color: #837AFC;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.btn-primary:hover {
+    border-color: #83E6FC !important;
+}
+
 #login {
     font-weight: 600;
     padding-left: 40px;
@@ -88,7 +109,7 @@ li {
 }
 
 #login:hover {
-    border-color: rgb(74, 86, 255);
+    border-color: #4A6BFF;
 }
 
 #seeTheAnimals {

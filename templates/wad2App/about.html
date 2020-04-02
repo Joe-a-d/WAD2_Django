@@ -1,12 +1,15 @@
-
-<!-- COPY -->
-
 {% extends 'wad2App/base.html' %}
+{% load static %}
 {% block title_block %} About Us {% endblock %}
 
 {% block body_block %}
-
-<p> This app was built by a group of students from the University of Glasgow, for the Web Application Development 2 module. </p>
+<h1>About us</h1>
+<img src="{% static 'wad2App/img/aboutus_title.png' %}" style="max-height: 2em; margin-bottom: 2%;">
+<br />
+<img src="{% static 'wad2App/img/aboutus_logo.png' %}" class="my-5 px-5 mx-5" style="width: 60%">
+<br />
+<p> This app was built by a group of students from the University of Glasgow, for the Web Application Development 2
+    module. </p>
 <p> It represents a fictious dog shelter, where people can: </p>
 <ul>
     <li> browse through and filter profiles of the dogs currenly in the shelter </li>

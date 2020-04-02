@@ -8,7 +8,7 @@ from WAD2app.models import *
 
 def populate():
 
-    dogs = [
+    dogs : [
        {'name': 'Abu,(female golden pup)',
         'size': 'L',
         'age': 'PUP',
@@ -16,7 +16,7 @@ def populate():
         'energy': 'H',
         'breed': 'Golden retriever',
         'houseTrained': 'True',
-        'isAvailable' = 'True',},
+        'isAvailable': 'True',},
        {'name': 'Billy, (female bull 1-2)',
         'size': 'S',
         'age': '2',
@@ -24,7 +24,7 @@ def populate():
         'energy': 'H',
         'breed': 'Bulldog',
         'houseTrained': 'True',
-        'isAvailable' = 'True',},
+        'isAvailable' : 'True',},
        {'name': 'Jimmy, (male golden 2-5)',
         'size': 'L',
         'age': '3',
@@ -32,7 +32,7 @@ def populate():
         'energy': 'H',
         'breed': 'Golden retriever',
         'houseTrained': 'Flase',
-        'isAvailable' = 'True',},
+        'isAvailable' : 'True',},
        {'name': 'Gale, (female golden 5+)',
         'size': 'L',
         'age': '4',
@@ -40,8 +40,8 @@ def populate():
         'energy': 'M',
         'breed': 'Golden retriever',
         'houseTrained': 'True',
-        'isReserved' = 'True',}, ]
-    users = [
+        'isReserved' : 'True',}, ]
+    users : [
         {'username': 'Alexis',
          'password': '123456',
          'email': '1@gmail.com'},
@@ -51,7 +51,7 @@ def populate():
         {'username': 'Leonardo',
          'password': '654321',
          'email': '3@gmail.com'}]
-    userProfiles = [
+    userProfiles : [
         {'postcode': 'G3 1QS',
          'building': 5,
          'address': 'whatever',
@@ -64,7 +64,7 @@ def populate():
          'building': 7,
          'address': 'whatever',
          'phone': 07412345078,},]
-    userPrefs = [
+    userPrefs : [
         {'breed': 'golden retriever',
          'size': 'L',
          'age': 'PUP',
@@ -81,7 +81,7 @@ def populate():
          'gender': 'M'
          'houseTrained': 'True',
          'energyLevel': 'H'}]
-    userLifes = [
+    userLifes : [
         {'lifestyle':'H',
          'timeAway': 8,
          'house': 'APT',
@@ -104,59 +104,59 @@ def populate():
          'dogOwner': False},]
 
         for dog in dogs:
-        add_dog (name=dog['name'], size=dog['size'], age=dog['age'],
-                 gender=dog['gender'], energy=dog['energy'], breed=dog['breed'],
-                 houseTrained=dog['houseTrained'],
-                 isAvailable=dog['isAvailable'],
-                 isReserved=dog['isReserved'])
+        add_dog (name:dog['name'], size:dog['size'], age:dog['age'],
+                 gender:dog['gender'], energy:dog['energy'], breed:dog['breed'],
+                 houseTrained:dog['houseTrained'],
+                 isAvailable:dog['isAvailable'],
+                 isReserved:dog['isReserved'])
         for i in range len(users):
-            user = User.objects.create_user(username=users[i]['username'],
-                                 email=users[i]['email'],
-                                 password=users[i]['password'])
-            add_userProfile (user, postcode=userProfiles[i]['postcode'],
-                             building=userProfiles[i]['building'],
-                             address=userProfiles[i]['address'],
-                             phone=userProfiles[i]['phone'])
-            add_userPref (user, breed=userPrefs[i]['breed'],
-                          size=userPrefs[i]['size'], age=userPrefs[i]['age'],
-                          gender=userPrefs[i]['gender'],
-                          houseTrained=userPrefs[i]['houseTrained'],
-                          energyLevel=userPrefs[i]['energyLevel'])
+            user : User.objects.create_user(username:users[i]['username'],
+                                 email:users[i]['email'],
+                                 password:users[i]['password'])
+            add_userProfile (user, postcode:userProfiles[i]['postcode'],
+                             building:userProfiles[i]['building'],
+                             address:userProfiles[i]['address'],
+                             phone:userProfiles[i]['phone'])
+            add_userPref (user, breed:userPrefs[i]['breed'],
+                          size:userPrefs[i]['size'], age:userPrefs[i]['age'],
+                          gender:userPrefs[i]['gender'],
+                          houseTrained:userPrefs[i]['houseTrained'],
+                          energyLevel:userPrefs[i]['energyLevel'])
 
-def add_dog (name, size, age, gender, energy, breed, houseTrained=False,
-             isAvailable=True, isReserved=False):
-        d = Dog.objects.create_Dog()
-        d.name = name
-        d.size = size
-        d.age = age
-        d.gender = gender
-        d.energy = energy
-        d.breed = breed
-        d.houseTrained = houseTrained
-        d.isAvailable = isAvailable
-        d.isReserved = isReserved
+def add_dog (name, size, age, gender, energy, breed, houseTrained:False,
+             isAvailable:True, isReserved:False):
+        d : Dog.objects.create_Dog()
+        d.name : name
+        d.size : size
+        d.age : age
+        d.gender : gender
+        d.energy : energy
+        d.breed : breed
+        d.houseTrained : houseTrained
+        d.isAvailable : isAvailable
+        d.isReserved : isReserved
         d.save()
         return d
 
 def add_userProfile (User, postcode, building, address, phone):
-        p = UserProfile.objects.create_UserProfile()
-        p.user = User
-        p.postcode = postcode
-        p.building = building
-        p.address = address
-        p.phone = phone
+        p : UserProfile.objects.create_UserProfile()
+        p.user : User
+        p.postcode : postcode
+        p.building : building
+        p.address : address
+        p.phone : phone
         p.save()
         return p
 
 def add_userPref (User, breed, size, age, gender, houseTrained, energyLevel):
-        p = UserPref.objects.create_UserPref()
-        p.user = User
-        p.size = size
-        p.age = age
-        p.gender = gender
-        p.energyLevel = energyLevel
-        p.breed = breed
-        p.houseTrained = houseTrained
+        p : UserPref.objects.create_UserPref()
+        p.user : User
+        p.size : size
+        p.age : age
+        p.gender : gender
+        p.energyLevel : energyLevel
+        p.breed : breed
+        p.houseTrained : houseTrained
         p.save()
         return p
          

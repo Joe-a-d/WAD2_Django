@@ -1,8 +1,44 @@
 {% extends 'wad2App/base.html' %}
+{% load static %}
 
+{% block title_block %}Donate!{% endblock %}
 {% block body_block %}
-<h1>PLACEHOLDER</h1>
+<h1>Support us</h1>
+<img src="{% static 'wad2App/img/aboutus_title.png' %}" style="max-height: 2em; margin-bottom: 2%;">
+<br />
 
-<p> This app was built by a group of students from the University of Glasgow, for the Web Application Development 2 module. </p>
-<p> This page represents a simple donation page, where users can make donations to the charity via paypal </p>
+<p>
+    Help running Rightpet with donations. We are a small organization with 30 people running a non-profit shelter.
+    Rightpet needs your help to grow!
+
+    Help us transition to a higher level of partnership with a local animal shelter by supporting our transition to a
+    local rescue.
+
+    Help us achieve our dream of rescuing stray and homeless dogs in the Bay Area, by donating. We have a great program
+    in place to place dogs into temporary foster homes.
+
+    Donate to Rightpet, an organization providing temporary, pre-adoption housing to those with pets and homeless in our
+    area.
+
+    Donate to help us restore Rightpet's local, family-run operation, so that we can more effectively save more pets.
+</p>
+<br />
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" style="margin-left: 45%">
+
+    <!-- Identify your business so that you can collect the payments. -->
+    <input type="hidden" name="business" value="donations@kcparkfriends.org">
+
+    <!-- Specify a Donate button. -->
+    <input type="hidden" name="cmd" value="_donations">
+
+    <!-- Specify details about the contribution -->
+    <input type="hidden" name="item_name" value="Help RightPet">
+    <input type="hidden" name="item_number" value="Help RightPet">
+    <input type="hidden" name="currency_code" value="GBP">
+
+    <!-- Display the payment button. -->
+    <input type="image" name="submit" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate">
+    <img alt="" width="1" height="1" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif">
+
+</form>
 {% endblock %}

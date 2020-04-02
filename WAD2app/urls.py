@@ -17,6 +17,7 @@ urlpatterns = [
     path('dogs/<int:pk>/', views.dog, name='dog'),
     path('<int:pk>/favourite/', views.favourite, name='favourite'),
     path('<int:pk>/adopt/', views.adopt, name='adopt'),
+    path('application/<int:pk>', views.showAppplication, name='application'),
     path('forgotPassword/', auth_views.PasswordResetView.as_view(template_name='resetPassword.html', success_url=settings.LOGIN_URL), name='resetPassword'),
     path('profile/changePassword', auth_views.PasswordChangeView.as_view(template_name='changePassword.html', success_url='profile/',), name='changePassword'),
 

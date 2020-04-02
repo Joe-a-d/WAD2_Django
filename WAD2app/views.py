@@ -178,6 +178,19 @@ def adopt(request,pk):
         event = Event(application=app, title="First Visit" + " " + dog.name + " : " + user.name, start = dateForm.start)
     return redirect(reverse('wad2App:dog'))
 
+@login_required
+def showApplication(request, pk):
+    user = request.user
+    if user.is_staff:
+        user = User.objects.get(pk=pk)
+    try:
+        application = Application.objects.filter(user=user)
+    except:
+        messages.error(request, 'We could not find that application!')
+        return redirect(reverse('wad2App:home'))
+
+    return render(request, 'rango/application.html', {'application' : apllication})
+
 ######################### HELPERS ##################
 
 def calc(user, dog):

@@ -7,7 +7,9 @@
 <form id="user_form" class="" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
     <h1>Account Information</h1>
     <br />
-    <!--{%csrf_token%}-->
+    {%csrf_token%}
+    {{ user_form.as_p }}
+
     <input type="text" name="username" id="" class="form-control custom-input" placeholder="Username" required=""
         autofocus="">
     <br />

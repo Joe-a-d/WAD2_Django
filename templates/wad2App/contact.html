@@ -1,0 +1,38 @@
+{% extends 'wad2App/base.html' %}
+{% load static %}
+{% block title_block %} Contact Us {% endblock %}
+
+{% block body_block %}
+<h1>Contact us</h1>
+<img src="{% static 'wad2App/img/contact_title.png' %}" style="max-height: 2em; margin-bottom: 2%;">
+<br />
+
+<div class="row">
+    <div class="col">
+        <p>
+            You can visit us at Osborne Street from 7 am to 5 pm. You can talk to our staff members for pet
+            adoption. Make sure you schedule your visit now, there will be very limited spaces. For updates on
+            our adoption opportunities, make sure to check out our Facebook page and website
+        </p>
+    </div>
+    <div class="col">
+        <iframe width="600" height="450" frameborder="0" style="border:0"
+            src="https://www.google.com/maps/embed/v1/place?q=glasgow%20shelter&key=AIzaSyD40LAQdIb3cr7R6iQI15L5z-hY4m0ts4g"
+            allowfullscreen></iframe>
+    </div>
+
+</div>
+
+<br />
+
+<h1>Contact Form</h1>
+<form id="form" method="post" action="{% url 'WAD2app:contact' %}"
+ enctype="multipart/form-data">
+
+ {% csrf_token %}
+ {{ form.as_p }}
+ <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block"
+     href="{% url 'WAD2app:contact' %}" >Submit</a>
+</form>
+
+{% endblock %}

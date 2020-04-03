@@ -13,6 +13,9 @@ def home(request):
     return render(request, 'wad2App/home.html')
 
 def about(request):
+    return render(request, "wad2App/about.html")
+
+def contact(request):
     if request.method == 'GET':
         form = ContactForm()
     else:
@@ -26,10 +29,10 @@ def about(request):
                 send_mail(subject, message, email)
             except BadHeaderError:
                 messages.error(request, 'Bad header')
-                return render(request, 'about.html', {'form': form})
+                return render(request, 'contact.html', {'form': form})
             messages.success(request, 'Thanks for getting in touch!')
-            return redirect('WAD2Appabout')
-    return render(request, "wad2App/about.html", {'form': form})
+            return redirect('WAD2Appcontact')
+    return render(request, "wad2App/contact.html", {'form': form})
 
 ##################### USER ####################
 # signup

@@ -12,7 +12,7 @@
     <p class="mb-5" style="font-size: 1em;">Don't have an account? <a href="{% url 'WAD2app:register' %}">Create
             one.</a></p> <a href="{% url 'WAD2app:resetPassword' %}">I forgot my password.</a></p>
 
-    <form id="login_form" method="post" action="{% url 'login' %}">
+    <form id="login_form" method="post" action="{% url 'WAD2app:login' %}">
         {% csrf_token %}
         <input type="text" name="login" id="login_field" class="form-control input-block py-4 custom-input"
             autocorrect="off" autocomplete="username" autocapitalize="off" autofocus="autofocus"

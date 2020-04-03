@@ -154,6 +154,8 @@ def addDog(request):
 def dog(request, pk):
     dog = Dogs.objects.get(pk=pk)
     dateForm = dateForm()
+    if 'delete' in request.POST:
+        dog.delete()
     return render(request, 'wad2App/dogs/dogs.html', {'dog': dog, 'dateForm': dateForm})
 
 def dogs(request):
@@ -194,7 +196,18 @@ def showApplication(request, pk):
         messages.error(request, 'We could not find that application!')
         return redirect(reverse('wad2App:home'))
 
-    return render(request, 'rango/application.html', {'application' : apllication, 'messages': messages })
+    return render(request, 'rango/application.html', {'application' : application, 'messages': messages })
+
+def updateApplication(request, pk):
+    application = Application.objects.filter(user=user)
+    if 'accept' in request.POST:
+        application.accepted = True
+        application.save()
+    elif 'approved' in request.POST:
+        application.approved = True
+        application.delete()
+    return render(request, 'rango/application.html', {'application' : application},)
+
 
 ######################### HELPERS ##################
 

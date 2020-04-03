@@ -124,7 +124,11 @@ def profile(request):
 
 @staff_member_required
 def dashboard(request):
-    return render(request, 'wad2App/staff/dashboard.html')
+    context_dict = {}
+
+    context_dict['applications'] = Application.objects.all()
+
+    return render(request, 'wad2App/staff/dashboard.html', context_dict)
 
 ############ DOGS ##########
 @staff_member_required
@@ -175,7 +179,7 @@ def adopt(request,pk):
     if request.method == "POST":
         app = Application.create(user=user, dog=dog)
         dateForm = dateForm(request.POST)
-        event = Event(application=app, title="First Visit" + " " + dog.name + " : " + user.name, start = dateForm.start)
+        event = Event(application=app, type="FIRST", title=dog.name + " : " + user.name, start = dateForm.start)
     return redirect(reverse('wad2App:dog'))
 
 @login_required
@@ -221,7 +225,7 @@ def calcNewUser(user, dogs, new):
         dog.scoresField.add(user, through_defaults={'score':score})
 
 ######################## MESSAGES ########################
-
+@login_required
 def sendMessage(request):
     user = request.user
     if request.method == 'POST':
@@ -252,3 +256,32 @@ def show_messages(request):
     context_dict["thread"] = thread
 
     return context_dict
+
+######################## FullCallendar ########################
+def getEvents(request):
+    events = Events.objects.all()
+    return render(request,'calendar.html',{"events": events})
+
+def updateEvent(request):
+    id = request.GET.get("id", None)
+    start = request.GET.get("start", None)
+
+    try:
+        event = Events.objects.get(id=id)
+        event.save()
+        messages.success(request, 'Event updated!')
+    except:
+        messages.error(request, 'Failure to update the event!')
+
+    return redirect(reverse("WAD2app:calendar"))
+
+def delEvent(request):
+    id = request.GET.get("id", None)
+    event = Events.objects.get(id=id)
+    event.delete()
+
+    subject = "Appointment Cancelation"
+    email = event.application.user.profile.email
+    message = "Unfortunately we had to cancel your appointment. Please get in touch with us if you want to reschedule it"
+    send_mail(subject, message, email)
+    return redirect(reverse("WAD2app:calendar"))

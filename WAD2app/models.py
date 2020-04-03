@@ -28,7 +28,7 @@ class UserProfile(models.Model):
 ##################### USER #####################
 class UserPref(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     breed = models.CharField(max_length=20,)
     size = models.CharField( max_length=10,choices=SIZES, default="ANY", blank=True, null=True)
     age = models.CharField(max_length=10,choices=AGES, blank=True, null=True)
@@ -41,7 +41,7 @@ class UserLife(models.Model):
     pENERGY = [("H", "Active"), ("M", "Average"), ("L", "Sedentary")]
     HOUSES = [("APT", "Apartment"), ("HO", "House")]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="life")
     lifestyle = models.CharField(max_length=10,choices=pENERGY)
     timeAway = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(24)], )
     house = models.CharField(max_length=10,choices=HOUSES)
@@ -85,12 +85,20 @@ class Application(models.Model):
      approved = models.BooleanField(default=False)
 
 class Event(models.Model):
+    TYPES = [("FIRST", "First Visit"), ("COURSE", "Course"), ("GEN", "General Visit"), ("ADOPT", "Pickup Pet")]
 
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
-
+    type = models.CharField(max_length=30, choices=TYPES)
     title = models.CharField(max_length=20,)
     start = models.DateTimeField()
     end = models.DateTimeField() #fix end, 30min gap, start returns datetime.datetime
+
+    def save(self, *args, **kwargs):
+        subject = "Your scheduled visit to RightPet"
+        message = f"Your visit was scheduled for {self.start} ."
+        mail = self.application.user.email
+        send_mail(subject, message, email)
+        super().save(*args, **kwargs)
 
 class Scores(models.Model):
     user = models.ForeignKey(UserPref, on_delete=models.CASCADE, related_name="hasScores")

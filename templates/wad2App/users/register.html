@@ -1,46 +1,20 @@
 {% extends 'wad2App/base.html' %}
+{% load static %}
 
 {% block body_block %}
 <h1>Welcome!</h1>
 <img src="{% static 'wad2App/img/aboutus_title.png' %}" style="max-height: 2em; margin-bottom: 4%;">
 
-<form id="user_form" class="" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+<form id="user_form" method="post" action="{% url 'WAD2app:register' %}"
+ enctype="multipart/form-data">
+
     <h1>Account Information</h1>
     <br />
     {%csrf_token%}
     {{ user_form.as_p }}
 
-    <input type="text" name="username" id="" class="form-control custom-input" placeholder="Username" required=""
-        autofocus="">
-    <br />
-    <input type="email" name="email" id="" class="form-control custom-input" placeholder="Email address" required=""
-        autofocus="">
-    <br />
-    <input type="password" name="password" id="inputPassword" class="form-control custom-input" placeholder="Password"
-        required="">
-    <br />
-    <input type="password" name="confirm_password" id="inputPassword" class="form-control custom-input"
-        placeholder="Confirm password" required="">
-    <br />
-    <label for="user_image">Upload a profile picture</label>
-    <input type="file" class="form-control-file" id="user_image">
-    <br />
     <h1>Pet Preference</h1>
-    <br />
-    <select class="form-control form-control-lg custom-input">
-        <option selected>Breed</option>
-        <option>Siberian Husky</option>
-        <option>Labrador Retriever</option>
-        <option>Pomeranian</option>
-    </select>
-    <br />
-    <select class="form-control form-control-lg custom-input">
-        <option selected>Age</option>
-        <option>0-3</option>
-        <option>3-5</option>
-        <option>5+</option>
-    </select>
-    <br />
+
     <!--{% if errors %}-->
     <p style="color:red;">Errors will appear here{{errors}}</p>
     <!--{% endif %}-->

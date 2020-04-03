@@ -28,7 +28,7 @@ def about(request):
                 messages.error(request, 'Bad header')
                 return render(request, 'about.html', {'form': form})
             messages.success(request, 'Thanks for getting in touch!')
-            return redirect('wad2App:about')
+            return redirect('WAD2Appabout')
     return render(request, "wad2App/about.html", {'form': form})
 
 ##################### USER ####################
@@ -65,7 +65,7 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request, 'wad2App/users/register', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    return render(request, 'wad2App/users/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 # edit profile
 
@@ -99,40 +99,34 @@ def editProfile(request):
 def donate(request):
     return render(request, "wad2App/donate.html")
 
-def login(request):
-    # if request.method == 'POST':
-    #     username = request.POST.get('username')
-    #     password = request.POST.get('password')
-    #     user = authenticate(username=username, password=password)
-    #
-    #     if user:
-    #         if user.is_active:
-    #             login(request, user)
-    #             return redirect(reverse('wad2App:profile'))
-    #         else:
-    #             messages.error(request, "We couldn't log you in. Please contact us directly")
-    #             return redirect('wad2App/about.html')
-    #     else:
-    #         print(f'Invalid login details: {username}, {password}')
-    #         return render(request, 'wad2App/users/login.html')
-    # else:
-    #     return render(request, 'wad2App/users/profile.html')
+def user_login(request):
+    #hides login view if already logged in, in case of manual attempt to access
+    if request.user.is_authenticated:
+        messages.error(request, "You are already logged in")
+        return redirect(reverse('WAD2app:profile'))
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
-
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse('wad2App:home'))
+                return redirect('WAD2app:profile')
             else:
-                return HttpResponse('Your Rango account is disabled.')
+                messages.error(request, "We couldn't log you in. Please contact us directly")
+                return redirect('wad2App/about.html')
         else:
             print(f'Invalid login details: {username}, {password}')
-            return HttpResponse('Invalid login details supplied.')
+            return render(request, 'wad2App/users/login.html',)
     else:
-        return render(request, 'wad2App/users/login.html')
+        return render(request, 'wad2App/users/login.html',)
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect('WAD2app:home')
+
 
 @login_required
 def profile(request):
@@ -185,7 +179,7 @@ def favourite(request, pk):
     if request.method == 'POST':
         Dog.favourites.add(pk)
         messages.success("Added to favourites!")
-        return redirect('wad2App:dogs')
+        return redirect('WAD2Appdogs')
     else:
         messages.error("We couldn't add it to your favourites. Please, try again")
     return render(request,)
@@ -198,7 +192,7 @@ def adopt(request,pk):
         app = Application.create(user=user, dog=dog)
         dateForm = dateForm(request.POST)
         event = Event(application=app, type="FIRST", title=dog.name + " : " + user.name, start = dateForm.start)
-    return redirect(reverse('wad2App:dog'))
+    return redirect(reverse('WAD2Appdog'))
 
 @login_required
 def showApplication(request, pk):
@@ -210,7 +204,7 @@ def showApplication(request, pk):
         application = Application.objects.filter(user=user)
     except:
         messages.error(request, 'We could not find that application!')
-        return redirect(reverse('wad2App:home'))
+        return redirect(reverse('WAD2App:home'))
 
     return render(request, 'rango/application.html', {'application' : application, 'messages': messages })
 

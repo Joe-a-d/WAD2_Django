@@ -33,7 +33,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light md-pl-5">
-        <a class="navbar-brand" href="{% url 'home' %}"> <img src="{% static 'wad2App/img/Logo.png' %}" class="pl-2"
+        <a class="navbar-brand" href="{% url 'WAD2app:home' %}"> <img src="{% static 'wad2App/img/Logo.png' %}" class="pl-2"
                 style="height:30px;"> </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,14 +51,16 @@
                 <li class="nav-item">
                     <a type="button" class="btn btn-outline-primary d-none d-lg-block d-xl-block"
                         href="{% url 'WAD2app:dogs' %}" id="seeTheAnimals">See the animals</a>
-                    <a class="nav-link d-block d-sm-block d-md-block d-lg-none" href="{% url 'WAD2app:dogs' %}">See the
-                        animals</a>
+
                 </li>
                 <li class="nav-item ">
+                    {% if user.is_authenticated %}
+                    <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block" id="login"
+                        href="{% url 'WAD2app:logout' %}" id="logout">Logout</a>
+                    {% else %}
                     <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block" id="login"
                         href="{% url 'WAD2app:login' %}" id="login">Login</a>
-                    <a class="nav-link d-block d-sm-block d-md-block d-lg-none"
-                        href="{% url 'WAD2app:login' %}">Login</a>
+                        {% endif %}
                 </li>
             </ul>
         </div>

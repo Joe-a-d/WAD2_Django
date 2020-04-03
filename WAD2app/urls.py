@@ -6,9 +6,11 @@ from . import views
 app_name = 'WAD2app'
 
 urlpatterns = [
+    path('', views.home, name='home'),
     path('about/' , views.about, name='about') ,
     path('donate/', views.donate, name='donate'),
-    path('login/', views.login, name='login'),
+    path('login/', views.user_login, name='login'),
+    path('logout/', views.user_logout, name='logout'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
     path('dashboard/', views.dashboard, name=''),
@@ -21,7 +23,6 @@ urlpatterns = [
     path('application/<int:pk>', views.showApplication, name='application'),
     path('application/<int:pk>/accept', views.updateApplication, name='updateApplication'),
     path('application/<int:pk>/approve', views.updateApplication, name='updateApplication'),
-    path('forgotPassword/', auth_views.PasswordResetView.as_view(template_name='resetPassword.html', success_url=settings.LOGIN_URL), name='resetPassword'),
-    path('profile/changePassword', auth_views.PasswordChangeView.as_view(template_name='changePassword.html', success_url='profile/',), name='changePassword'),
+    path('change-password/', auth_views.PasswordChangeView.as_view(template_name='changePassword.html'), name='changePassword'),
 
 ]

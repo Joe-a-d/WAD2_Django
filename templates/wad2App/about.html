@@ -1,4 +1,4 @@
-{% extends 'wad2App/base.html' %}
+
 {% load static %}
 {% block title_block %} About Us {% endblock %}
 
@@ -51,20 +51,12 @@
 <br />
 
 <h1>Contact Form</h1>
-<form action="mailto:someone@example.com" method="post" enctype="text/plain">
-    <div class="row">
-        <div class="col">
-            <input type="text" name="name" class="form-control" placeholder="Your name">
-        </div>
-        <div class="col">
-            <input type="text" name="mail" class="form-control" placeholder="Email">
-        </div>
-    </div>
-    <br />
-    <textarea class="form-control" name="message" rows="10" placeholder="Start typing here..."></textarea>
-    <br />
-    <input type="submit" class="btn btn-primary" value="Send">
-    <input type="reset" class="btn btn-outline-primary" value="Reset">
+<form id="form" method="post" action="{% url 'WAD2app:about' %}"
+ enctype="multipart/form-data">
+
+ {% csrf_token %}
+ {{ form.as_p }}
+
 </form>
 
 {% endblock %}

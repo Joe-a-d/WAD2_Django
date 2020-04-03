@@ -99,3 +99,10 @@ class Scores(models.Model):
 
     class Meta:
         unique_together=[('user', 'dog')]
+
+class Messages(models.Model):
+    application = models.ForeignKey(Application, on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender")
+    to = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)

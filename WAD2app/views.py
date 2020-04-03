@@ -181,6 +181,7 @@ def adopt(request,pk):
 @login_required
 def showApplication(request, pk):
     user = request.user
+    messages = show_messages(request)
     if user.is_staff:
         user = User.objects.get(pk=pk)
     try:
@@ -189,7 +190,7 @@ def showApplication(request, pk):
         messages.error(request, 'We could not find that application!')
         return redirect(reverse('wad2App:home'))
 
-    return render(request, 'rango/application.html', {'application' : apllication})
+    return render(request, 'rango/application.html', {'application' : apllication, 'messages': messages })
 
 ######################### HELPERS ##################
 
@@ -218,3 +219,36 @@ def calcNewUser(user, dogs, new):
         if not new:
             dog.scoresField.remove(user)
         dog.scoresField.add(user, through_defaults={'score':score})
+
+######################## MESSAGES ########################
+
+def sendMessage(request):
+    user = request.user
+    if request.method == 'POST':
+        if not user.is_staff:
+            to = [user for user in User.objects.all() if user.is_staff]
+        else:
+            to = [User.objects.all()[1]]
+        sender = user
+        message = MessageForm(request.POST)
+        if message.is_valid():
+            content = message.cleaned_data['message']
+            for user in to:
+                Messages.objects.create(sender=sender, to=user, message=content)
+    else:
+        message = MessageForm()
+    return render(request, 'rango/index.html', {'message': message})
+
+@login_required
+def show_messages(request):
+    context_dict = {}
+
+    inbox = Message.objects.filter(to = user.request)
+    sent = Message.objects.filter(receiver = user.request)
+    thread = inbox.union(sent).order_by('created_at')
+
+    context_dict["inbox"] = inbox
+    context_dict["sent"] = sent
+    context_dict["thread"] = thread
+
+    return context_dict

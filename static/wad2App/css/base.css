@@ -28,6 +28,15 @@ li {
     height: 500px;
 }
 
+.card {
+    color: black;
+}
+
+.card:hover {
+    text-decoration: none;
+    color: black;
+}
+
 .card-body {
     font-size: 1.4em !important;
     text-align: left;

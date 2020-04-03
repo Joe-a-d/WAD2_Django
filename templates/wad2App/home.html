@@ -12,9 +12,9 @@
             RightPet's shelter animals to the best candidates.
         </p>
         <br />
-        <button type="button" class="btn btn-outline-primary btn-block">
+        <a type="button" href="{% url 'WAD2app:about' %}" class="btn btn-outline-primary btn-block">
             <h1 style="padding-top: 2%">See the animals</h1>
-        </button>
+        </a>
         <br />
     </div>
     <div class="col-sm">
@@ -318,11 +318,10 @@
 </div>
 <br />
 <div class="row">
-    <a class="mx-auto" target="_blank" rel="noopener noreferrer"
-        href="https://www.instagram.com/explore/tags/adoptadog/"><button type="button"
-            class="btn btn-danger btn-Large mx-auto">
-            <h5 style="padding-top: 2%">See more on Instagram</h5>
-        </button></a>
+    <a class="btn btn-danger btn-Large mx-auto" target="_blank" rel="noopener noreferrer"
+        href="https://www.instagram.com/explore/tags/adoptadog/">
+        <h5 style="padding-top: 2%">See more on Instagram</h5>
+    </a>
 </div>
 <br />
 {% endblock %}

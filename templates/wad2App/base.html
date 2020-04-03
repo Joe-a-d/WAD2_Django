@@ -36,7 +36,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light md-pl-5">
-        <a class="navbar-brand" href="#"> <img src="{% static 'wad2App/img/Logo.png' %}" class="pl-2"
+        <a class="navbar-brand" href="{% url 'home' %}"> <img src="{% static 'wad2App/img/Logo.png' %}" class="pl-2"
                 style="height:30px;"> </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -46,23 +46,25 @@
         <div class="collapse navbar-collapse md-pl-4" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
+                    <a class="nav-link" href="{% url 'WAD2app:about' %}">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Contact</a>
+                    <a class="nav-link" href="{% url 'WAD2app:about' %}">Contact</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Help</a>
+                    <a class="nav-link" href="{% url 'WAD2app:donate' %}">Help</a>
                 </li>
                 <li class="nav-item">
-                    <button type="button" class="btn btn-outline-primary d-none d-lg-block d-xl-block"
-                        id="seeTheAnimals">See the animals</button>
-                    <a class="nav-link d-block d-sm-block d-md-block d-lg-none" href="#">See the animals</a>
+                    <a type="button" class="btn btn-outline-primary d-none d-lg-block d-xl-block"
+                        href="{% url 'WAD2app:dogs' %}" id="seeTheAnimals">See the animals</a>
+                    <a class="nav-link d-block d-sm-block d-md-block d-lg-none" href="{% url 'WAD2app:dogs' %}">See the
+                        animals</a>
                 </li>
                 <li class="nav-item ">
-                    <button type="button" class="btn btn-primary d-none d-lg-block d-xl-block" id="login"
-                        id="login">Login</button>
-                    <a class="nav-link d-block d-sm-block d-md-block d-lg-none" href="#">Login</a>
+                    <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block" id="login"
+                        href="{% url 'WAD2app:login' %}" id="login">Login</a>
+                    <a class="nav-link d-block d-sm-block d-md-block d-lg-none"
+                        href="{% url 'WAD2app:login' %}">Login</a>
                 </li>
             </ul>
         </div>

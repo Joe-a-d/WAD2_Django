@@ -1,4 +1,4 @@
-
+{% extends 'wad2App/base.html' %}
 {% load static %}
 {% block title_block %} About Us {% endblock %}
 
@@ -56,7 +56,8 @@
 
  {% csrf_token %}
  {{ form.as_p }}
-
+ <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block"
+     href="{% url 'WAD2app:about' %}" >Submit</a>
 </form>
 
 {% endblock %}

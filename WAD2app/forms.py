@@ -7,17 +7,19 @@ from django.contrib.auth.models import User
 #forms.ModelForm -> used to directly add or edit a Django model, inherits all from its model
 
 class UserForm(forms.Form):
+    username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput())
+    email = forms.EmailField()
 
     class Meta:
         model = User
-        fields = ('email', 'password',)
+        fields = ('username', 'password', 'email')
 
 class UserProfileForm(forms.Form):
 
     class Meta:
         model = UserProfile
-        exclude = []
+        exclude = ['user',]
 
 
 
@@ -25,7 +27,7 @@ class UserLifeForm(forms.ModelForm):
 
     class Meta:
         model = UserLife
-        exclude = []
+        exclude = ['user',]
 
 class UserPrefForm(forms.ModelForm):
     try:
@@ -33,17 +35,18 @@ class UserPrefForm(forms.ModelForm):
     except:
         inSHELTER = []
 
-    breed = forms.MultipleChoiceField(choices=inSHELTER, widget=forms.CheckboxSelectMultiple, help_text="You'll only be able to select breeds of dogs currently in the shelter, but you can check back later and edit your preferences on your profile page")
-    age = forms.MultipleChoiceField()
-    gender = forms.MultipleChoiceField()
-    energyLevel = forms.MultipleChoiceField()
-    size = forms.MultipleChoiceField()
-    houseTrained = forms.BooleanField()
+    breed = forms.MultipleChoiceField(choices=inSHELTER,help_text="You'll only be able to select breeds of dogs currently in the shelter, but you can check back later and edit your preferences on your profile page", required=False,)
+    age = forms.MultipleChoiceField(required=False,)
+    gender = forms.MultipleChoiceField(required=False,)
+    energyLevel = forms.MultipleChoiceField(required=False,)
+    size = forms.MultipleChoiceField(required=False,)
+    houseTrained = forms.BooleanField(required=False,)
 
 
     class Meta:
         model = UserProfile
-        exclude = []
+        exclude = ['user',]
+        widgets = {forms.CheckboxSelectMultiple,}
 
 class UserUpdateForm(forms.ModelForm):
 

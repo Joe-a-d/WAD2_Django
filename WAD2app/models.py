@@ -29,7 +29,7 @@ class UserProfile(models.Model):
 class UserPref(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
-    breed = models.CharField(max_length=20,)
+    breed = models.CharField(max_length=20, blank=True, null=True)
     size = models.CharField( max_length=10,choices=SIZES, default="ANY", blank=True, null=True)
     age = models.CharField(max_length=10,choices=AGES, blank=True, null=True)
     gender = models.CharField(max_length=10, choices=GENDERS, blank=True, null=True)
@@ -45,13 +45,13 @@ class UserLife(models.Model):
     lifestyle = models.CharField(max_length=10,choices=pENERGY)
     timeAway = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(24)], )
     house = models.CharField(max_length=10,choices=HOUSES)
-    garden = models.NullBooleanField()
-    hasCat = models.NullBooleanField()
-    hasDog = models.NullBooleanField()
+    garden = models.BooleanField()
+    hasCat = models.BooleanField()
+    hasDog = models.BooleanField()
     cohab = models.IntegerField( validators=[MinValueValidator(0), MaxValueValidator(10)])
-    hasChildren = models.NullBooleanField( )
-    trainer = models.NullBooleanField()
-    dogOwner = models.NullBooleanField()
+    hasChildren = models.BooleanField( )
+    trainer = models.BooleanField()
+    dogOwner = models.BooleanField()
 
 
 ##################### DOG #####################

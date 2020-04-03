@@ -35,16 +35,20 @@ def about(request):
 # signup
 def register(request):
     registered = False
-
+    if request.user.is_authenticated:
+        return redirect('WAD2app:profile')
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
+        preference_form = UserPrefForm(request.POST)
+        life_form = UserLifeForm(request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid():
+        if user_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
 
+        if profile_form.is_valid():
             #prevents DB integrity errors
             profile = profile_form.save(commit=False)
             profile.user = user
@@ -53,19 +57,32 @@ def register(request):
                 profile.picture = request.FILES['picture']
 
             profile.save()
+        if preference_form.is_valid():
+            pref = preference_form.save(commit=False)
+            pref.user = user
+            pref.save()
+
+        if life_form.is_valid():
+            life = life_form.save()
+            life.user = user
+            life.save()
+
+            # get matching score for each dog
             dogs = Dog.objects.all()
             calcNewUser(user, dogs, True)
             registered = True
             messages.success(request, 'Your account has been successfully created! ')
-            return redirect('login')
+            return redirect('WAD2app:login')
         else:
             print(user_form.errors, profile_form.errors)
             messages.error(request, 'Something went wrong while trying to register your account. Please try again.')
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
+        preference_form = UserPrefForm()
+        life_form = UserLifeForm()
 
-    return render(request, 'wad2App/users/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    return render(request, 'wad2App/users/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'preference_form': preference_form, 'life_form': life_form,'registered': registered})
 
 # edit profile
 

@@ -32,6 +32,15 @@
 
 
 <body>
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+    {% block content %}{% endblock %}
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light md-pl-5">
         <a class="navbar-brand" href="{% url 'WAD2app:home' %}"> <img src="{% static 'wad2App/img/Logo.png' %}" class="pl-2"
                 style="height:30px;"> </a>
@@ -50,7 +59,7 @@
                 </li>
                 <li class="nav-item">
                     <a type="button" class="btn btn-outline-primary d-none d-lg-block d-xl-block"
-                        href="{% url 'WAD2app:dogs' %}" id="seeTheAnimals">See the animals</a>
+                        href="{% url 'WAD2app:dogs' %}" id="seeTheAnimals">Meet the Dogs</a>
 
                 </li>
                 <li class="nav-item ">
@@ -66,15 +75,16 @@
         </div>
     </nav>
 
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
     <div class="container" style="margin-top: 5%">
         {% block body_block %}
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                {% endfor %}
-        </ul>
-        {% endif %}
+
         {% endblock %}
 
     </div>

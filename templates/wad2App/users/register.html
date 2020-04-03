@@ -5,21 +5,38 @@
 <h1>Welcome!</h1>
 <img src="{% static 'wad2App/img/aboutus_title.png' %}" style="max-height: 2em; margin-bottom: 4%;">
 
-<form id="user_form" method="post" action="{% url 'WAD2app:register' %}"
+<form id="form" method="post" action="{% url 'WAD2app:register' %}"
  enctype="multipart/form-data">
 
-    <h1>Account Information</h1>
-    <br />
-    {%csrf_token%}
-    {{ user_form.as_p }}
+ {% csrf_token %}
+<div>
+ <h1>Account Information</h1>
+ <br />
+ {{ user_form.as_p }}
+</div>
+<div>
+<h1> Profile </h1>
+ {{ profile_form.as_p }}
+</div>
+<div>
+ <h1>Pet Preference</h1>
 
-    <h1>Pet Preference</h1>
+ {{ preference_form.as_p }}
+</div>
+<div>
+  <h1>Lifestyle</h1>
 
-    <!--{% if errors %}-->
-    <p style="color:red;">Errors will appear here{{errors}}</p>
-    <!--{% endif %}-->
-    <button class="btn btn-lg btn-primary btn-block login" type="submit" value="Register">Sign
-        up</button>
+  {{ life_form.as_p }}
+</div>
+ <!--{% if errors %}-->
+ <p style="color:red;">Errors will appear here{{errors}}</p>
+ <!--{% endif %}-->
+ <button class="btn btn-lg btn-primary btn-block login" type="submit" value="Register">Sign
+     up</button>
+ </form>
+
+
+
 
 </form>
 {% endblock %}

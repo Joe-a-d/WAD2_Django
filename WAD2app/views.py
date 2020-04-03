@@ -137,7 +137,7 @@ def login(request):
     else:
         return render(request, 'wad2App/users/login.html')
 
-@login_required
+#@login_required
 def profile(request):
     return render(request, 'wad2App/users/profile.html')
 
@@ -170,12 +170,12 @@ def addDog(request):
     return render(request, 'wad2App/dogs/addDog.html', context = {'dog_form': dog_form})
 
 
-def dog(request, pk):
-    dog = Dogs.objects.get(pk=pk)
-    dateForm = dateForm()
-    if 'delete' in request.POST:
-        dog.delete()
-    return render(request, 'wad2App/dogs/dogs.html', {'dog': dog, 'dateForm': dateForm})
+def dog(request):
+    # dog = Dogs.objects.get(pk=pk)
+    # dateForm = dateForm()
+    # if 'delete' in request.POST:
+    #     dog.delete()
+    return render(request, 'wad2App/dogs/dog.html', {'dog': dog, 'dateForm': dateForm})
 
 def dogs(request):
     f = DogFilter(request.GET, queryset=Dog.objects.all())

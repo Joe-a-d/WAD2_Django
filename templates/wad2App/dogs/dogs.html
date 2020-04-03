@@ -39,7 +39,7 @@
 <div class='row px-auto'>
     {% for i in '0123456789'|make_list %}
     <div class='col my-3'>
-        <a class="card" href="#"
+        <a class="card" href="{% url 'WAD2app:dog' %}"
             style="width: 18rem; border-radius: 20px; box-shadow: 0 10px 40px 5px rgba(26, 26, 26, 0.397); border-style: none;">
             <img class="card-img-top" src="{% static 'wad2App/img/doglist_dogpic.png' %}"
                 style="border-top-left-radius: 20px; border-top-right-radius: 20px">

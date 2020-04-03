@@ -1,39 +1,40 @@
 {% extends 'wad2App/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block body_block %}
 <h1>Welcome!</h1>
 <img src="{% static 'wad2App/img/aboutus_title.png' %}" style="max-height: 2em; margin-bottom: 4%;">
 
-<form id="form" method="post" action="{% url 'WAD2app:register' %}"
- enctype="multipart/form-data">
+<form id="form" method="post" action="{% url 'WAD2app:register' %}" enctype="multipart/form-data">
 
- {% csrf_token %}
-<div>
- <h1>Account Information</h1>
- <br />
- {{ user_form.as_p }}
-</div>
-<div>
-<h1> Profile </h1>
- {{ profile_form.as_p }}
-</div>
-<div>
- <h1>Pet Preference</h1>
+    {% csrf_token %}
+    <h1>Account Information</h1>
+    <br />
+    {{ user_form|crispy }}
+    <br />
 
- {{ preference_form.as_p }}
-</div>
-<div>
-  <h1>Lifestyle</h1>
+    <h1> Profile </h1>
+    <br />
+    {{ profile_form|crispy }}
+    <br />
 
-  {{ life_form.as_p }}
-</div>
- <!--{% if errors %}-->
- <p style="color:red;">Errors will appear here{{errors}}</p>
- <!--{% endif %}-->
- <button class="btn btn-lg btn-primary btn-block login" type="submit" value="Register">Sign
-     up</button>
- </form>
+    <h1>Pet Preference</h1>
+    <br />
+    {{ preference_form|crispy }}
+
+    <br />
+    <h1>Lifestyle</h1>
+    <br />
+    {{ life_form|crispy }}
+    <br />
+    
+    <!--{% if errors %}-->
+    <p style="color:red;">Errors will appear here{{errors}}</p>
+    <!--{% endif %}-->
+    <button class="btn btn-lg btn-primary btn-block login" type="submit" value="Register">Sign
+        up</button>
+</form>
 
 
 

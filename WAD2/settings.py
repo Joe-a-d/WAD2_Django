@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +142,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'wad2appglasgow@gmail.com'
 EMAIL_HOST_PASSWORD = pswd
 EMAIL_PORT = 587
+
+# Crispy
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

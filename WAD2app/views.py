@@ -116,7 +116,7 @@ def login(request):
             print(f'Invalid login details: {username}, {password}')
             return render(request, 'wad2App/users/login.html')
     else:
-        return render(request, 'wad2App/users/login.html')
+        return render(request, 'wad2App/users/profile.html')
 
 @login_required
 def profile(request):

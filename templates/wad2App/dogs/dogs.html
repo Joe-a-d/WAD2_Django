@@ -7,10 +7,10 @@
 <img src="{% static 'wad2App/img/doglist_title.png' %}" style="max-height: 2em; margin-bottom: 2%;">
 
 <div class="row" style="margin-bottom:2%">
-    <div class="col-1 align-self-center">
+    <div class="col-auto my-auto">
         <h5>Sort by</h5>
     </div>
-    <div class="col align-self-center">
+    <div class="col-auto my-auto">
         <div class="dropdown show">
             <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -24,10 +24,9 @@
             </div>
         </div>
     </div>
-    <div class="col-3 align-self-center"></div>
-    <button class="btn btn-light" type="button" data-toggle="collapse" data-target="#filter" aria-expanded="false"
-        aria-controls="collapseExample">
-        Filter
+    <button class="col mr-0 btn btn-outline-success" type="button" data-toggle="collapse" data-target="#filter" aria-expanded="false"
+        style="max-width: 200px" aria-controls="collapseExample">
+        More Filter
     </button>
 </div>
 <div class="collapse" id="filter">
@@ -35,24 +34,24 @@
         Filter contents
     </div>
 </div>
+<br />
 
-<form method="get">
-    # automatically generated filter form, needs styling
-    {{ filter.form.as_p }}
-    <input type="submit" />
-</form>
-{% for obj in filter.qs %}
-{{ obj.name }} - ${{ obj.price }}<br />
-{% endfor %}
-
-<a class="card" href="#"
-    style="width: 18rem; border-radius: 20px; box-shadow: 0 20px 50px 10px rgba(26, 26, 26, 0.397); border-style: none;">
-    <img class="card-img-top" src="{% static 'wad2App/img/doglist_dogpic.png' %}"
-        style="border-top-left-radius: 20px; border-top-right-radius: 20px">
-    <div class="card-body">
-        <h3 class="card-title">Dog Name</h3>
-        <p class="card-body">Breed, age, and more</p>
+<div class='row px-auto'>
+    {% for i in '0123456789'|make_list %}
+    <div class='col my-3'>
+        <a class="card" href="#"
+            style="width: 18rem; border-radius: 20px; box-shadow: 0 10px 40px 5px rgba(26, 26, 26, 0.397); border-style: none;">
+            <img class="card-img-top" src="{% static 'wad2App/img/doglist_dogpic.png' %}"
+                style="border-top-left-radius: 20px; border-top-right-radius: 20px">
+            <div class="card-body">
+                <h3 class="card-title">Dog Name</h3>
+                <p class="card-body">Breed, age, and more</p>
+            </div>
+        </a>
     </div>
-</a>
+    {% endfor %}
+
+</div>
+
 
 {% endblock %}

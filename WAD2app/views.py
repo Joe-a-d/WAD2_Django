@@ -13,6 +13,9 @@ def home(request):
     return render(request, 'wad2App/home.html')
 
 def about(request):
+    return render(request, "wad2App/about.html")
+
+def contact(request):
     if request.method == 'GET':
         form = ContactForm()
     else:
@@ -28,8 +31,8 @@ def about(request):
                 messages.error(request, 'Bad header')
                 return render(request, 'about.html', {'form': form})
             messages.success(request, 'Thanks for getting in touch!')
-            return redirect('wad2App:about')
-    return render(request, "wad2App/about.html", {'form': form})
+            return redirect('wad2App:contact')
+    return render(request, "wad2App/contact.html", {'form': form})
 
 ##################### USER ####################
 # signup
@@ -65,7 +68,7 @@ def register(request):
         user_form = UserForm()
         profile_form = UserProfileForm()
 
-    return render(request, 'wad2App/users/register', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
+    return render(request, 'wad2App/users/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered})
 
 # edit profile
 

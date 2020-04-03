@@ -1,14 +1,15 @@
 {% extends 'wad2App/base.html' %}
+{% load static %}
+{% block title_block %} Register {% endblock %}
 
 {% block body_block %}
 <h1>Welcome!</h1>
 <img src="{% static 'wad2App/img/aboutus_title.png' %}" style="max-height: 2em; margin-bottom: 4%;">
 
-<form id="user_form" class="" action="{% url 'register' %}" method="post" enctype="multipart/form-data">
+<form id="user_form" class="" style="max-width: 500px;" action="{% url 'WAD2app:register' %}" method="post" enctype="multipart/form-data">
     <h1>Account Information</h1>
     <br />
     {%csrf_token%}
-    {{ user_form.as_p }}
 
     <input type="text" name="username" id="" class="form-control custom-input" placeholder="Username" required=""
         autofocus="">

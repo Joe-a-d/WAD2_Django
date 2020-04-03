@@ -1,12 +1,13 @@
 from django import forms
-from  .models import *
+from .models import *
+from .choices import *
 from django.contrib.auth.models import User
 
 
 #forms.Form -> forms which do not necessarily interact with DB (email, password)
 #forms.ModelForm -> used to directly add or edit a Django model, inherits all from its model
 
-class UserForm(forms.Form):
+class UserForm(forms.ModelForm):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput())
     email = forms.EmailField()
@@ -15,7 +16,8 @@ class UserForm(forms.Form):
         model = User
         fields = ('username', 'password', 'email')
 
-class UserProfileForm(forms.Form):
+class UserProfileForm(forms.ModelForm):
+    image = forms.ImageField()
 
     class Meta:
         model = UserProfile
@@ -54,7 +56,7 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         exclude = []
 
-class ProfileUpdateForm(forms.Form):
+class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
@@ -62,12 +64,21 @@ class ProfileUpdateForm(forms.Form):
 
 class DogForm(forms.ModelForm):
 
+    name = forms.CharField()
+    image = forms.ImageField ()
+    size = forms.ChoiceField(choices = SIZES,)
+    breed = forms.CharField()
+    age = forms.ChoiceField(choices = AGES,)
+    gender = forms.ChoiceField(choices = GENDERS,)
+    houseTrained = forms.BooleanField()
+    energyLevel = forms.ChoiceField(choices = ENERGY,)
+
     class Meta:
         model = Dog
-        exclude = []
+        exclude = ['favourites',"scoresField","isAvailable", "isReserved" ]
 
 
-class dateForm(forms.Form):
+class dateForm(forms.ModelForm):
     start = models.DateTimeField()
     # needs validation, popup FullCallendar prob better option
 
@@ -77,7 +88,7 @@ class EventForm(forms.ModelForm):
         model = Event
         exclude = []
 
-class ContactForm(forms.Form):
+class ContactForm(forms.ModelForm):
     subject = forms.CharField(max_length=100,)
     message = forms.CharField(widget=forms.Textarea)
     sender = forms.EmailField()

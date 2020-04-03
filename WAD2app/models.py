@@ -1,17 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from .choices import *
 from django.core.validators import MaxValueValidator, MaxLengthValidator, MinValueValidator
 import datetime
 
-
-
-# SHARED CONSTANTS
-
-SIZES = [("ANY", "Any"),("S","Small"),("M","Medium"),("L","Large")]
-AGES = [("PUP", "Puppy"), (2, "1-2"), (3, "2-5"), (4, "5+")]
-GENDERS = [("F", "Female"), ("M", "Male")]
-ENERGY = [("H", "Live Wire"), ("M", "Average"), ("L", "Couch Potato")]
 
 
 
@@ -21,7 +14,7 @@ class UserProfile(models.Model):
     postcode = models.CharField( max_length=10)
     building = models.IntegerField( validators=[MaxValueValidator(1000)])
     address = models.CharField( max_length=300)
-    phone = models.IntegerField( validators=[MaxLengthValidator(11)])
+    phone = models.IntegerField()
 
 
 
@@ -64,7 +57,7 @@ class Dog(models.Model):
     breed = models.CharField(max_length=20)
     age = models.CharField(max_length=10,choices=AGES,)
     gender = models.CharField(max_length=10, choices=GENDERS,)
-    houseTrained = models.NullBooleanField()
+    houseTrained = models.NullBooleanField(default=True,)
     energyLevel = models.CharField(max_length=20,choices=ENERGY,)
 
     isAvailable = models.BooleanField(default=True)

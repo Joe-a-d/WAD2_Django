@@ -46,12 +46,11 @@ def register(request):
         preference_form = UserPrefForm(request.POST)
         life_form = UserLifeForm(request.POST)
 
-        if user_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid() and preference_form.is_valid() and life_form.is_valid():
             user = user_form.save()
             user.set_password(user.password)
             user.save()
 
-        if profile_form.is_valid():
             #prevents DB integrity errors
             profile = profile_form.save(commit=False)
             profile.user = user
@@ -60,17 +59,15 @@ def register(request):
                 profile.picture = request.FILES['picture']
 
             profile.save()
-        if preference_form.is_valid():
+
             pref = preference_form.save(commit=False)
             pref.user = user
             pref.save()
 
-        if life_form.is_valid():
             life = life_form.save()
             life.user = user
             life.save()
 
-            # get matching score for each dog
             dogs = Dog.objects.all()
             calcNewUser(user, dogs, True)
             registered = True

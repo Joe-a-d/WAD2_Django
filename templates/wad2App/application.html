@@ -1,0 +1,14 @@
+{% extends 'wad2App/base.html' %}
+{% load static %}
+
+{% block title_block %}
+		Application
+{% endblock %}
+
+{% include "calendar.html" %}
+
+<input type="submit" name="accept" value="Accept" class="btn btn-primary btn-block py-2 custom-input"
+    style="font-size: 1.3em;">
+
+    <input type="submit" name="submit" value="Approve" class="btn btn-primary btn-block py-2 custom-input"
+        style="font-size: 1.3em;">

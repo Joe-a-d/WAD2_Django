@@ -1,5 +1,6 @@
 {% extends 'wad2App/base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title_block %} Contact Us {% endblock %}
 
 {% block body_block %}
@@ -30,7 +31,7 @@
  enctype="multipart/form-data">
 
  {% csrf_token %}
- {{ form.as_p }}
+ {{ form|crispy }}
  <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block"
      href="{% url 'WAD2app:contact' %}" >Submit</a>
 </form>

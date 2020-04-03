@@ -100,6 +100,23 @@ def donate(request):
     return render(request, "wad2App/donate.html")
 
 def login(request):
+    # if request.method == 'POST':
+    #     username = request.POST.get('username')
+    #     password = request.POST.get('password')
+    #     user = authenticate(username=username, password=password)
+    #
+    #     if user:
+    #         if user.is_active:
+    #             login(request, user)
+    #             return redirect(reverse('wad2App:profile'))
+    #         else:
+    #             messages.error(request, "We couldn't log you in. Please contact us directly")
+    #             return redirect('wad2App/about.html')
+    #     else:
+    #         print(f'Invalid login details: {username}, {password}')
+    #         return render(request, 'wad2App/users/login.html')
+    # else:
+    #     return render(request, 'wad2App/users/profile.html')
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -108,13 +125,12 @@ def login(request):
         if user:
             if user.is_active:
                 login(request, user)
-                return redirect(reverse('wad2App:profile'))
+                return redirect(reverse('wad2App:home'))
             else:
-                messages.error(request, "We couldn't log you in. Please contact us directly")
-                return redirect('wad2App/about.html')
+                return HttpResponse('Your Rango account is disabled.')
         else:
             print(f'Invalid login details: {username}, {password}')
-            return render(request, 'wad2App/users/login.html')
+            return HttpResponse('Invalid login details supplied.')
     else:
         return render(request, 'wad2App/users/login.html')
 
@@ -198,6 +214,7 @@ def showApplication(request, pk):
 
     return render(request, 'rango/application.html', {'application' : application, 'messages': messages })
 
+@login_required
 def updateApplication(request, pk):
     application = Application.objects.filter(user=user)
     if 'accept' in request.POST:

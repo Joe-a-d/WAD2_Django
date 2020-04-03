@@ -6,17 +6,23 @@ from django.contrib.auth.models import User
 #forms.Form -> forms which do not necessarily interact with DB (email, password)
 #forms.ModelForm -> used to directly add or edit a Django model, inherits all from its model
 
-class UserProfileForm(forms.Form):
-    #PLACEHOLDER
+class UserForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
     class Meta:
         model = User
         fields = ('email', 'password',)
 
+class UserProfileForm(forms.Form):
+
+    class Meta:
+        model = UserProfile
+        exclude = []
+
+
 
 class UserLifeForm(forms.ModelForm):
-    #PLACEHOLDER
+
     class Meta:
         model = UserLife
         exclude = []
@@ -39,8 +45,20 @@ class UserPrefForm(forms.ModelForm):
         model = UserProfile
         exclude = []
 
+class UserUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        exclude = []
+
+class ProfileUpdateForm(forms.Form):
+
+    class Meta:
+        model = User
+        exclude = []
+
 class DogForm(forms.ModelForm):
-    #PLACEHOLDER
+
     class Meta:
         model = Dog
         exclude = []
@@ -51,11 +69,12 @@ class dateForm(forms.Form):
     # needs validation, popup FullCallendar prob better option
 
 class EventForm(forms.ModelForm):
-    #PLACEHOLDER
+
     class Meta:
         model = Event
         exclude = []
 
 class ContactForm(forms.Form):
-    #PLACEHOLDER
-    pass
+    subject = forms.CharField(max_length=100,)
+    message = forms.CharField(widget=forms.Textarea)
+    sender = forms.EmailField()

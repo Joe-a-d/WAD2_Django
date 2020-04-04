@@ -11,18 +11,19 @@
 {% block body_block %}
 
 {% if user.is_staff %}
-<input type="submit" name="accept" value="Accept" class="btn btn-primary btn-block py-2 custom-input"
-    style="font-size: 1.3em;">
+	<input type="submit" name="accept" value="Accept" class="btn btn-primary btn-block py-2 custom-input"
+	    style="font-size: 1.3em;">
+	<input type="submit" name="cancel" value="Cancel" class="btn btn-primary btn-block py-2 custom-input"
+		style="font-size: 1.3em;">
+	{% if application.accepted == True %}
 
-{% if application.accepted == True %}
-
-    <input type="submit" name="approve" value="Approve" class="btn btn-primary btn-block py-2 custom-input"
-        style="font-size: 1.3em;">
+	    <input type="submit" name="approve" value="Approve" class="btn btn-primary btn-block py-2 custom-input"
+	        style="font-size: 1.3em;">
+	{% endif %}
 {% endif %}
-{% endif %}
 
-<input type="submit" name="cancel" value="Cancel" class="btn btn-primary btn-block py-2 custom-input"
-	style="font-size: 1.3em;">
+
+
 
 
 {% endblock %}

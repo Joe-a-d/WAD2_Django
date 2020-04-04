@@ -226,7 +226,27 @@ def dogs(request):
     f = DogFilter(request.GET, queryset=Dog.objects.all())
     return render(request, 'wad2App/dogs/dogs.html', {'filter': f})
 
-#############################
+@login_required
+def showApplication(request, id):
+    user = request.user
+    try:
+        app_user = User.objects.get(id=id)
+        print("try")
+        user_messages = getMessages(request, app_user)
+        app = Application.objects.filter(user=app_user)
+    except:
+        messages.error(request, 'We could not find that application!')
+        return redirect(reverse('WAD2app:home'))
+
+    context_dict = {}
+    context['messages'] = user_messages
+    context['app'] = app
+
+
+
+    return render(request, 'WAD2App/application.html', context_dict)#'messages': messages })
+
+######################## AJAX ########################
 
 @login_required
 def favourite(request):
@@ -264,33 +284,26 @@ def adopt(request):
         }
     return JsonResponse(data)
 
-@login_required
-def showApplication(request, id):
-    user = request.user
-    try:
-        app_user = User.objects.get(id=id)
-        user_messages = show_messages(request, app_user)
-        app = Application.objects.filter(user=app_user)
-    except:
-        messages.error(request, 'We could not find that application!')
-        return redirect(reverse('WAD2app:home'))
-
-
-    return render(request, 'WAD2App/application.html', {'application' : app, })#'messages': messages })
 
 @login_required
-def updateApplication(request, pk):
-    application = Application.objects.filter(user=user)
-    if 'accept' in request.POST:
+def updateApplication(request, id):
+    user = User.objects.get(id=id)
+    app = Application.objects.get(user=user)
+
+    if request.get('accept'):
         application.accepted = True
         application.save()
-    elif 'approved' in request.POST:
+    if request.get('approved'):
         application.approved = True
         application.delete()
+    if request.get('reschedule'):
+        pass
+
+
     return render(request, 'rango/application.html', {'application' : application},)
 
 
-######################### HELPERS ##################
+######################## HELPERS ########################
 
 def calc(user, dog):
     fields = ["breed", "size", "age", "gender", "houseTrained", "energyLevel"]
@@ -342,7 +355,7 @@ def sendMessage(request, app_user):
     return render(request, 'rango/index.html', {'message': message})
 
 @login_required
-def show_messages(request, app_user):
+def getMmessages(request, app_user):
     context_dict = {}
     inbox = Messages.objects.filter(to = app_user)
     sent = Messages.objects.filter(sender = app_user)

@@ -141,7 +141,7 @@ def login(request):
 def profile(request):
     return render(request, 'wad2App/users/profile.html')
 
-@staff_member_required
+#@staff_member_required
 def dashboard(request):
     context_dict = {}
 

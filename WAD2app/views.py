@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import *
 from .filters import *
+from .models import *
 
 def home(request):
     return render(request, 'wad2App/home.html')
@@ -170,7 +171,7 @@ def addDog(request):
                 score = calc(person, dog)
                 dog.scoresField.add(person, through_defaults={'score':score})
             messages.success(request, f'{name} has been added to the list of available dogs!')
-            return redirect('wad2App/dogs/dogs.html')
+            return redirect('WAD2app:dogs')
 
     else:
         dog_form = DogForm()
@@ -179,11 +180,12 @@ def addDog(request):
 
 
 def dog(request, pk):
-    dog = Dogs.objects.get(pk=pk)
-    dateForm = dateForm()
+    dog = Dog.objects.get(pk=pk)
+    user_filter = ['id','image','isAvailable', 'isReserved']
+    #dateForm = dateForm()
     if 'delete' in request.POST:
         dog.delete()
-    return render(request, 'wad2App/dogs/dogs.html', {'dog': dog, 'dateForm': dateForm})
+    return render(request, 'wad2App/dogs/dog.html', context={'dog': dog, 'dateForm': dateForm, 'user_filter': user_filter})
 
 def dogs(request):
     f = DogFilter(request.GET, queryset=Dog.objects.all())

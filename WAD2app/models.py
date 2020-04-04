@@ -10,7 +10,7 @@ import datetime
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField (upload_to='profileImages' , blank=True, default=settings.STATIC_URL+'profileImg')
+    image = models.ImageField (upload_to='profileImages' , blank=True, null=True, default=settings.STATIC_URL+'profileImg')
     postcode = models.CharField( max_length=10)
     building = models.IntegerField( validators=[MaxValueValidator(1000)])
     address = models.CharField( max_length=300)
@@ -21,7 +21,7 @@ class UserProfile(models.Model):
 ##################### USER #####################
 class UserPref(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile")
     breed = models.CharField(max_length=20, blank=True, null=True)
     size = models.CharField( max_length=10,choices=SIZES, default="ANY", blank=True, null=True)
     age = models.CharField(max_length=10,choices=AGES, blank=True, null=True)
@@ -34,7 +34,7 @@ class UserLife(models.Model):
     pENERGY = [("H", "Active"), ("M", "Average"), ("L", "Sedentary")]
     HOUSES = [("APT", "Apartment"), ("HO", "House")]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="life")
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_life")
     lifestyle = models.CharField(max_length=10,choices=pENERGY)
     timeAway = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(24)], )
     house = models.CharField(max_length=10,choices=HOUSES)

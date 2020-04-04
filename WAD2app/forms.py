@@ -38,10 +38,10 @@ class UserPrefForm(forms.ModelForm):
         inSHELTER = []
 
     breed = forms.MultipleChoiceField(choices=inSHELTER,help_text="You'll only be able to select breeds of dogs currently in the shelter, but you can check back later and edit your preferences on your profile page", required=False,)
-    age = forms.MultipleChoiceField(required=False,)
-    gender = forms.MultipleChoiceField(required=False,)
-    energyLevel = forms.MultipleChoiceField(required=False,)
-    size = forms.MultipleChoiceField(required=False,)
+    age = forms.MultipleChoiceField(required=False,choices=AGES,)
+    gender = forms.MultipleChoiceField(required=False,choices=GENDERS,)
+    energyLevel = forms.MultipleChoiceField(required=False,choices=ENERGY)
+    size = forms.MultipleChoiceField(required=False,choices=SIZES)
     houseTrained = forms.BooleanField(required=False,)
 
 

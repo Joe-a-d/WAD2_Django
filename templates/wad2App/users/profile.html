@@ -9,7 +9,8 @@
 
 <div class="row">
     <div class=col-2>
-        <img src="{% static 'wad2App/img/myaccount_profile.png' %}" style="border-radius: 50%; width: 150px; height: 150px; overflow: hidden">
+        <img src="{% static 'wad2App/img/myaccount_profile.png' %}"
+            style="border-radius: 50%; width: 150px; height: 150px; overflow: hidden">
     </div>
     <div class=col>
         <h1>Jake Smith</h1>
@@ -48,8 +49,38 @@
             </h5>
         </div>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-            <div class="card-body">
-                dsdsdds
+            <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for favourite in favourites %}
+                    <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
+                        {% if forloop.counter == 1 %}
+                            active
+                        {% endif %}
+                        "></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for favourite in favourites %}
+                    <div class="carousel-item 
+                        {% if forloop.counter == 1 %}
+                            active
+                        {% endif %}">
+                        <img class="d-block w-100" src="{% static 'wad2App/img/doglist_dogpic.png' %}" alt="">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Caption</h5>
+                            <p>Description</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
     </div>
@@ -62,15 +93,38 @@
                 </button>
             </h5>
         </div>
-        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-            <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-                moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
-                proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
-                aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {% for request in requests %}
+                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
+                    {% if forloop.counter == 1 %}
+                        active
+                    {% endif %}
+                    "></li>
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+                {% for request in requests %}
+                <div class="carousel-item 
+                    {% if forloop.counter == 1 %}
+                        active
+                    {% endif %}">
+                    <img class="d-block w-100" src="{% static 'wad2App/img/doglist_dogpic.png' %}" alt="">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Caption</h5>
+                        <p>Description</p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
+            <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
     <div class="card">
@@ -82,15 +136,38 @@
                 </button>
             </h5>
         </div>
-        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-            <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf
-                moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-                Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-                shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea
-                proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim
-                aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {% for message in inbox %}
+                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
+                    {% if forloop.counter == 1 %}
+                        active
+                    {% endif %}
+                    "></li>
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+                {% for message in inbox %}
+                <div class="carousel-item 
+                    {% if forloop.counter == 1 %}
+                        active
+                    {% endif %}">
+                    <img class="d-block w-100" src="{% static 'wad2App/img/doglist_dogpic.png' %}" alt="">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>Caption</h5>
+                        <p>Description</p>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
+            <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
 </div>

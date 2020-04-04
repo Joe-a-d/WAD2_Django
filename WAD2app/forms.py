@@ -46,7 +46,7 @@ class UserPrefForm(forms.ModelForm):
 
 
     class Meta:
-        model = UserPr
+        model = UserPref
         exclude = ['user',]
         widgets = {forms.CheckboxSelectMultiple,}
 

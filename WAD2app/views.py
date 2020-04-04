@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.hashers import make_password
-from django.conf.settings import EMAIL_HOST_USER
+from django.conf import settings
 from .forms import *
 from .filters import *
 from .models import *
@@ -336,7 +336,7 @@ def sendMessage(request, app_user):
             for user in to:
                 Messages.objects.create(sender=sender, to=user, message=content)
         else:
-            messages.error(f"We could not send your message. Try again or email us directly on {EMAIL_HOST_USER}")
+            messages.error(f"We could not send your message. Try again or email us directly on {settings.EMAIL_HOST_USER}")
     else:
         message = MessageForm()
     return render(request, 'rango/index.html', {'message': message})

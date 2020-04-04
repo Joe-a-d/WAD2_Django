@@ -101,6 +101,18 @@ li {
     border-color: rgb(255, 110, 74) !important;
 }
 
+.btn-outline-danger {
+    border-color: rgb(255, 110, 74) !important;
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.btn-outline-danger:hover {
+    border-color: rgb(255, 74, 149) !important;
+    background-color: rgb(255, 74, 149);
+}
+
+
 .btn-primary {
     background-image: linear-gradient(to right, #837AFC, #83E6FC) !important;
     border-color: #837AFC;

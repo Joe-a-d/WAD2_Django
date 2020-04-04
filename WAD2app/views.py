@@ -265,18 +265,18 @@ def adopt(request):
     return JsonResponse(data)
 
 @login_required
-def showApplication(request, pk):
+def showApplication(request, id):
     user = request.user
-    app_user = User.objects.filter(id=pk)
-    messages = show_messages(request, app_user)
-
     try:
-        Application.objects.filter(user=app_user)
+        app_user = User.objects.get(id=id)
+        user_messages = show_messages(request, app_user)
+        app = Application.objects.filter(user=app_user)
     except:
         messages.error(request, 'We could not find that application!')
         return redirect(reverse('WAD2app:home'))
 
-    return render(request, 'WAD2App/application.html', {'application' : application, })#'messages': messages })
+
+    return render(request, 'WAD2App/application.html', {'application' : app, })#'messages': messages })
 
 @login_required
 def updateApplication(request, pk):
@@ -345,7 +345,7 @@ def sendMessage(request, app_user):
 def show_messages(request, app_user):
     context_dict = {}
     inbox = Messages.objects.filter(to = app_user)
-    sent = Messages.objects.filter(receiver = app_user)
+    sent = Messages.objects.filter(sender = app_user)
     thread = inbox.union(sent).order_by('created_at')
 
     context_dict["inbox"] = inbox

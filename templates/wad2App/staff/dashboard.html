@@ -20,7 +20,7 @@
 
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
-                {% include "scheduler/calendar.html" %}
+                {% include "wad2App/scheduler/calendar.html" %}
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@
             <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     {% for favourite in favourites %}
-                    <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
+                    <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }}
                         {% if forloop.counter == 1 %}
                             active
                         {% endif %}
@@ -46,7 +46,7 @@
                 </ol>
                 <div class="carousel-inner">
                     {% for favourite in favourites %}
-                    <div class="carousel-item 
+                    <div class="carousel-item
                         {% if forloop.counter == 1 %}
                             active
                         {% endif %}">
@@ -81,7 +81,7 @@
         <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 {% for request in requests %}
-                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
+                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }}
                     {% if forloop.counter == 1 %}
                         active
                     {% endif %}
@@ -90,7 +90,7 @@
             </ol>
             <div class="carousel-inner">
                 {% for request in requests %}
-                <div class="carousel-item 
+                <div class="carousel-item
                     {% if forloop.counter == 1 %}
                         active
                     {% endif %}">
@@ -124,7 +124,7 @@
         <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
                 {% for message in inbox %}
-                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
+                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }}
                     {% if forloop.counter == 1 %}
                         active
                     {% endif %}
@@ -133,7 +133,7 @@
             </ol>
             <div class="carousel-inner">
                 {% for message in inbox %}
-                <div class="carousel-item 
+                <div class="carousel-item
                     {% if forloop.counter == 1 %}
                         active
                     {% endif %}">

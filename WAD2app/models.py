@@ -9,7 +9,7 @@ import datetime
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile")
     image = models.ImageField (upload_to='profileImages' , blank=True, null=True, default=settings.STATIC_URL+'profileImg')
     postcode = models.CharField( max_length=10)
     building = models.IntegerField( validators=[MaxValueValidator(1000)])
@@ -21,7 +21,7 @@ class UserProfile(models.Model):
 ##################### USER #####################
 class UserPref(models.Model):
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile")
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="user_pref")
     breed = models.CharField(max_length=20, blank=True, null=True)
     size = models.CharField( max_length=10,choices=SIZES, default="ANY", blank=True, null=True)
     age = models.CharField(max_length=10,choices=AGES, blank=True, null=True)
@@ -34,7 +34,7 @@ class UserLife(models.Model):
     pENERGY = [("H", "Active"), ("M", "Average"), ("L", "Sedentary")]
     HOUSES = [("APT", "Apartment"), ("HO", "House")]
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_life")
+    user = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name="user_life")
     lifestyle = models.CharField(max_length=10,choices=pENERGY)
     timeAway = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(24)], )
     house = models.CharField(max_length=10,choices=HOUSES)
@@ -69,7 +69,7 @@ class Dog(models.Model):
 
 class Application(models.Model):
 
-     user = models.OneToOneField(User, on_delete=models.CASCADE)
+     user = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
      dog = models.ForeignKey(Dog, on_delete=models.CASCADE)
 
      created_at = models.DateTimeField(auto_now_add=True)

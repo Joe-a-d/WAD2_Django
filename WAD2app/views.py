@@ -32,60 +32,76 @@ def contact(request):
                 messages.error(request, 'Bad header')
                 return render(request, 'contact.html', {'form': form})
             messages.success(request, 'Thanks for getting in touch!')
-            return redirect('WAD2Appcontact')
+            return redirect('WAD2app:contact')
     return render(request, "wad2App/contact.html", {'form': form})
 
 ##################### USER ####################
 # signup
 def register(request):
+    #for debugging
     registered = False
+
     if request.user.is_authenticated:
         return redirect('WAD2app:profile')
+
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         profile_form = UserProfileForm(request.POST)
-        preference_form = UserPrefForm(request.POST)
-        life_form = UserLifeForm(request.POST)
 
-        if user_form.is_valid() and profile_form.is_valid() and preference_form.is_valid() and life_form.is_valid():
+        if user_form.is_valid() and profile_form.is_valid():
+
             user = user_form.save()
-            user.set_password(user.password)
-            user.save()
-
-            #prevents DB integrity errors
-            profile = profile_form.save(commit=False)
+            profile = profile_form.save(commit = False)
             profile.user = user
-
-            if 'picture' in request.FILES:
-                profile.picture = request.FILES['picture']
-
             profile.save()
-
-            pref = preference_form.save(commit=False)
-            pref.user = user
-            pref.save()
-
-            life = life_form.save()
-            life.user = user
-            life.save()
-
-            dogs = Dog.objects.all()
-            calcNewUser(user, dogs, True)
             registered = True
-            messages.success(request, 'Your account has been successfully created! ')
-            return redirect('WAD2app:login')
+            messages.success(request, 'Your account has been successfully created!. Now please create your profile, so that we are able to match you with your 4-legged buddy!')
+
+            return redirect('WAD2app:registerProfile', id=user.id)
         else:
-            print(user_form.errors, profile_form.errors)
             messages.error(request, 'Something went wrong while trying to register your account. Please try again.')
     else:
         user_form = UserForm()
         profile_form = UserProfileForm()
-        preference_form = UserPrefForm()
+
+    return render(request, 'wad2App/users/register.html', context = {'user_form': user_form, 'profile_form': profile_form})
+
+
+def registerProfile(request, id):
+    if request.user.is_authenticated:
+        return redirect('WAD2app:profile')
+
+    if request.method == 'POST':
+        user = User.objects.get(id=id)
+        profile = UserProfile.objects.get(user=user)
+        pref_form = UserPrefForm(request.POST)
+        life_form = UserLifeForm(request.POST)
+
+
+        if  pref_form.is_valid() and life_form.is_valid():
+            pref = pref_form.save(commit = False)
+            life = life_form.save(commit = False)
+
+            pref.user = profile
+            life.user = profile
+
+            pref.save()
+            life.save()
+
+            messages.success(request, "You're all set! Login to enjoy all our webpage has to offer")
+
+            return redirect('WAD2app:login')
+        else:
+            messages.error(request, 'Something went wrong while trying to save your profile. Please try again.')
+    else:
+
+        pref_form = UserPrefForm()
         life_form = UserLifeForm()
 
-    return render(request, 'wad2App/users/register.html', context = {'user_form': user_form, 'profile_form': profile_form, 'preference_form': preference_form, 'life_form': life_form,'registered': registered})
+    return render(request, 'wad2App/users/registerProfile.html',context = { "pref_form": pref_form , "life_form":life_form , "id":id})
 
-# edit profile
+
+
 
 def editProfile(request):
     if request.method == 'POST':
@@ -216,16 +232,18 @@ def adopt(request,pk):
 @login_required
 def showApplication(request, pk):
     user = request.user
-    messages = show_messages(request)
-    if user.is_staff:
-        user = User.objects.get(pk=pk)
-    try:
+    app_user = User.objects.filter(id=pk)
+    #messages = show_messages(request)
+
+    if user.is_staff or user == app_user:
         application = Application.objects.filter(user=user)
-    except:
+    elif user == app_user:
+        application = Application.objects.filter(user=user)
+    else:
         messages.error(request, 'We could not find that application!')
         return redirect(reverse('WAD2App:home'))
 
-    return render(request, 'rango/application.html', {'application' : application, 'messages': messages })
+    return render(request, 'WAD2App/application.html', {'application' : application, })#'messages': messages })
 
 @login_required
 def updateApplication(request, pk):
@@ -290,8 +308,8 @@ def sendMessage(request):
 def show_messages(request):
     context_dict = {}
 
-    inbox = Message.objects.filter(to = user.request)
-    sent = Message.objects.filter(receiver = user.request)
+    inbox = Messages.objects.filter(to = user.request)
+    sent = Messages.objects.filter(receiver = user.request)
     thread = inbox.union(sent).order_by('created_at')
 
     context_dict["inbox"] = inbox

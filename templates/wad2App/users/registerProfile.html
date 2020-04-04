@@ -6,29 +6,25 @@
 <h1>Welcome!</h1>
 <img src="{% static 'wad2App/img/aboutus_title.png' %}" style="max-height: 2em; margin-bottom: 4%;">
 
-<form id="form" method="post" action="{% url 'WAD2app:register' %}" enctype="multipart/form-data">
+<form id="form" method="post" action="{% url 'WAD2app:registerProfile' id %}" enctype="multipart/form-data">
 
     {% csrf_token %}
-    <h1>Account Information</h1>
-    <br />
-    {{ pref_form|crispy }}
-    <br />
 
-    <h1> Profile </h1>
+    <h1>Pet Preference</h1>
     <br />
-    {{ profile_form|crispy }}
-    <br />
+    {{ preference_form|crispy }}
 
+    <br />
+    <h1>Lifestyle</h1>
+    <br />
+    {{ life_form|crispy }}
+    <br />
 
     <!--{% if errors %}-->
     <p style="color:red;">Errors will appear here{{errors}}</p>
     <!--{% endif %}-->
-    <button class="btn btn-lg btn-primary btn-block login" type="submit" value="Register">Sign
-        up</button>
+    <button class="btn btn-lg btn-primary btn-block login" type="submit" value="Register">Save</button>
 </form>
 
 
-
-
-</form>
 {% endblock %}

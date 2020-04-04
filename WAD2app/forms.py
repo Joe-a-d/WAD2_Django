@@ -17,7 +17,7 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'password', 'email')
 
 class UserProfileForm(forms.ModelForm):
-    image = forms.ImageField()
+    image = forms.ImageField(required=False,)
 
     class Meta:
         model = UserProfile
@@ -46,7 +46,7 @@ class UserPrefForm(forms.ModelForm):
 
 
     class Meta:
-        model = UserProfile
+        model = UserPr
         exclude = ['user',]
         widgets = {forms.CheckboxSelectMultiple,}
 
@@ -88,7 +88,7 @@ class EventForm(forms.ModelForm):
         model = Event
         exclude = []
 
-class ContactForm(forms.ModelForm):
+class ContactForm(forms.Form):
     subject = forms.CharField(max_length=100,)
     message = forms.CharField(widget=forms.Textarea)
     sender = forms.EmailField()

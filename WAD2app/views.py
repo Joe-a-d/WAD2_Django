@@ -6,6 +6,7 @@ from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.hashers import make_password
 from .forms import *
 from .filters import *
 from .models import *
@@ -53,6 +54,7 @@ def register(request):
         if user_form.is_valid():
 
             formUser = user_form.save()
+            formUser.password = make_password(user_form.cleaned_data['password'])
 
             if noProfile:
                 formUser.is_staff = True

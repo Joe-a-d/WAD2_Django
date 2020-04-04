@@ -7,153 +7,58 @@
 <img src="{% static 'wad2App/img/myaccount_title.png' %}" style="max-height: 2em; margin-bottom: 2%;">
 
 <br />
-<div id="accordion">
-    <div class="card">
-        <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
-                    aria-controls="collapseOne">
-                    Calendar
-                </button>
-            </h5>
-        </div>
-
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-            <div class="card-body">
-                {% include "calendar.html" %}
-            </div>
-        </div>
+<div class="card">
+    <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true"
+                aria-controls="collapseOne">
+                Calendar
+            </button>
+        </h5>
     </div>
-    <div class="card">
-        <div class="card-header" id="headingTwo">
-            <h5 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
-                    aria-expanded="false" aria-controls="collapseTwo">
-                    My favorites
-                </button>
-            </h5>
-        </div>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-            <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    {% for favourite in favourites %}
-                    <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
+
+    <div class="card-body">
+        {% include "calendar.html" %}
+    </div>
+</div>
+<div class="card">
+    <div class="card-header" id="headingTwo">
+        <h5 class="mb-0">
+            <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="false" aria-controls="collapseTwo">
+                My favorites
+            </button>
+        </h5>
+    </div>
+    <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            {% for favourite in '12345'|make_list %}
+            <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
                         {% if forloop.counter == 1 %}
                             active
                         {% endif %}
                         "></li>
-                    {% endfor %}
-                </ol>
-                <div class="carousel-inner">
-                    {% for favourite in favourites %}
-                    <div class="carousel-item 
+            {% endfor %}
+        </ol>
+        <div class="carousel-inner">
+            {% for favourite in '12345'|make_list %}
+            <div class="carousel-item 
                         {% if forloop.counter == 1 %}
                             active
-                        {% endif %}">
-                        <img class="d-block w-100" src="{% static 'wad2App/img/doglist_dogpic.png' %}" alt="">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>Caption</h5>
-                            <p>Description</p>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+                        {% endif %} text-center ">
+                <h5>Text</h5>
+                <p>Description</p>
             </div>
+            {% endfor %}
         </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="headingThree">
-            <h5 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree"
-                    aria-expanded="false" aria-controls="collapseThree">
-                    Request status
-                </button>
-            </h5>
-        </div>
-        <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                {% for request in requests %}
-                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
-                    {% if forloop.counter == 1 %}
-                        active
-                    {% endif %}
-                    "></li>
-                {% endfor %}
-            </ol>
-            <div class="carousel-inner">
-                {% for request in requests %}
-                <div class="carousel-item 
-                    {% if forloop.counter == 1 %}
-                        active
-                    {% endif %}">
-                    <img class="d-block w-100" src="{% static 'wad2App/img/doglist_dogpic.png' %}" alt="">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Caption</h5>
-                        <p>Description</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
-    </div>
-    <div class="card">
-        <div class="card-header" id="headingFour">
-            <h5 class="mb-0">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour"
-                    aria-expanded="false" aria-controls="collapseFour">
-                    Inbox
-                </button>
-            </h5>
-        </div>
-        <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
-            <ol class="carousel-indicators">
-                {% for message in inbox %}
-                <li data-target="#carouselIndicators" data-slide-to="{{ forloop.counter }} 
-                    {% if forloop.counter == 1 %}
-                        active
-                    {% endif %}
-                    "></li>
-                {% endfor %}
-            </ol>
-            <div class="carousel-inner">
-                {% for message in inbox %}
-                <div class="carousel-item 
-                    {% if forloop.counter == 1 %}
-                        active
-                    {% endif %}">
-                    <img class="d-block w-100" src="{% static 'wad2App/img/doglist_dogpic.png' %}" alt="">
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>Caption</h5>
-                        <p>Description</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Next</span>
-            </a>
-        </div>
+        <a class="carousel-control-prev" href="#carouselIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" style="filter: invert(100%);" id="carousel-text-prev" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" style="filter: invert(100%);" id="carousel-text-next" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
     </div>
 </div>
 {% endblock %}

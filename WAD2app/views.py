@@ -7,9 +7,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.hashers import make_password
+from django.conf.settings import EMAIL_HOST_USER
 from .forms import *
 from .filters import *
 from .models import *
+from datetime import datetime, timedelta
+
 
 def home(request):
     return render(request, 'wad2App/home.html')
@@ -226,38 +229,52 @@ def dogs(request):
 #############################
 
 @login_required
-def favourite(request, pk):
-    if request.method == 'POST':
-        Dog.favourites.add(pk)
-        messages.success("Added to favourites!")
-        return redirect('WAD2Appdogs')
-    else:
-        messages.error("We couldn't add it to your favourites. Please, try again")
-    return render(request,)
+def favourite(request):
+    dog_id = request.get("dog_id")
+    user = request.user
+
+    try:
+        Dog.objects.get(id=dog_id)
+        dog.favourites.add(user)
+        added = user in dog.favourites.all()
+    except:
+        added = False
+
+        data = {
+        'added': added
+    }
+    return JsonResponse(data)
+
 
 @login_required
-def adopt(request,pk):
+def adopt(request):
     user = request.user
-    dog = Dogs.objects.get(pk=pk)
-    if request.method == "POST":
-        app = Application.create(user=user, dog=dog)
-        dateForm = dateForm(request.POST)
-        event = Event(application=app, type="FIRST", title=dog.name + " : " + user.name, start = dateForm.start)
-    return redirect(reverse('WAD2Appdog'))
+    dog = Dogs.object.get(id=request.get("dog_id"))
+    start = request.get("start")
+    #parse dates into ISO_8601 strings
+    start = datetime.strptime(start, '%d,%m,%y,%H,%M')
+    end = start + datetime.timedelta(minutes=30)
+
+    app,created = Application.objects.get_or_create(user=user, dog=dog)
+    event  = Event.objects.get_or_create(application = app, type="FIRST",start=start, end=end)
+
+    if created:
+         data = {
+        'created': created
+        }
+    return JsonResponse(data)
 
 @login_required
 def showApplication(request, pk):
     user = request.user
     app_user = User.objects.filter(id=pk)
-    #messages = show_messages(request)
+    messages = show_messages(request, app_user)
 
-    if user.is_staff or user == app_user:
-        application = Application.objects.filter(user=user)
-    elif user == app_user:
-        application = Application.objects.filter(user=user)
-    else:
+    try:
+        Application.objects.filter(user=app_user)
+    except:
         messages.error(request, 'We could not find that application!')
-        return redirect(reverse('WAD2App:home'))
+        return redirect(reverse('WAD2app:home'))
 
     return render(request, 'WAD2App/application.html', {'application' : application, })#'messages': messages })
 
@@ -303,29 +320,32 @@ def calcNewUser(user, dogs, new):
 
 ######################## MESSAGES ########################
 @login_required
-def sendMessage(request):
+def sendMessage(request, app_user):
     user = request.user
+    staff = [user for user in User.objects.all() if user.is_staff]
     if request.method == 'POST':
-        if not user.is_staff:
-            to = [user for user in User.objects.all() if user.is_staff]
+        if user == app_user:
+            to = staff
         else:
-            to = [User.objects.all()[1]]
+            #avoids having to check length before iteration
+            to = [user]
         sender = user
         message = MessageForm(request.POST)
         if message.is_valid():
             content = message.cleaned_data['message']
             for user in to:
                 Messages.objects.create(sender=sender, to=user, message=content)
+        else:
+            messages.error(f"We could not send your message. Try again or email us directly on {EMAIL_HOST_USER}")
     else:
         message = MessageForm()
     return render(request, 'rango/index.html', {'message': message})
 
 @login_required
-def show_messages(request):
+def show_messages(request, app_user):
     context_dict = {}
-
-    inbox = Messages.objects.filter(to = user.request)
-    sent = Messages.objects.filter(receiver = user.request)
+    inbox = Messages.objects.filter(to = app_user)
+    sent = Messages.objects.filter(receiver = app_user)
     thread = inbox.union(sent).order_by('created_at')
 
     context_dict["inbox"] = inbox

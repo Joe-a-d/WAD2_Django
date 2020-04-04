@@ -87,6 +87,7 @@ class Event(models.Model):
     end = models.DateTimeField() #fix end, 30min gap, start returns datetime.datetime
 
     def save(self, *args, **kwargs):
+        self.title = f"{application.user.name} : {application.dog.name}"
         subject = "Your scheduled visit to RightPet"
         message = f"Your visit was scheduled for {self.start} ."
         mail = self.application.user.email

@@ -92,3 +92,10 @@ class ContactForm(forms.Form):
     subject = forms.CharField(max_length=100,)
     message = forms.CharField(widget=forms.Textarea)
     sender = forms.EmailField()
+
+
+class MessageForm(forms.ModelForm,ContactForm):
+    subject = None
+    class Meta:
+        model = Messages
+        fields = ('message',)

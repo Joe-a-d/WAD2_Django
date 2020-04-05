@@ -185,7 +185,12 @@ def user_logout(request):
 def profile(request):
     context_dict = {}
     profile = UserProfile.objects.get(user = request.user)
+    favourites = Dog.objects.filter(favourites = request.user)
+    application = Application.objects.filter(user = request.user)
     context_dict['profile'] = profile
+    context_dict['favourites'] = favourites
+    context_dict['application'] = application
+    print(context_dict)
     return render(request, 'wad2App/users/profile.html', context_dict)
 
 @staff_member_required
@@ -235,37 +240,45 @@ def showApplication(request, id):
     user = request.user
     try:
         app_user = User.objects.get(id=id)
-        print("try")
-        user_messages = getMessages(request, app_user)
         app = Application.objects.filter(user=app_user)
     except:
         messages.error(request, 'We could not find that application!')
         return redirect(reverse('WAD2app:home'))
+    try:
+        user_messages = getMessages(request, app_user)
+    except:
+        messages.error(request, "Oops, it seems like we can't show you your messages at the moment")
 
-    context_dict = {}
-    context['messages'] = user_messages
+    context = {}
+    context['fullData'] = user_messages
+    context['msgs'] = user_messages['thread']
     context['app'] = app
-
-
-
-    return render(request, 'WAD2App/application.html', context_dict)#'messages': messages })
+    print(context)
+    return render(request, 'wad2App/application.html', context)
 
 ######################## AJAX ########################
 
 @login_required
 def favourite(request):
     dog_id = request.get("dog_id")
+    fav = request.get("fav")
     user = request.user
+
 
     try:
         Dog.objects.get(id=dog_id)
-        dog.favourites.add(user)
-        added = user in dog.favourites.all()
+        if fav:
+            dog.favourites.add(user)
+            added = user in dog.favourites.all()
+        else:
+            dog.favourites.delete(user)
+            removed = user in dog.favourites.all()
     except:
         added = False
 
         data = {
-        'added': added
+        'added': added,
+        'removed': removed
     }
     return JsonResponse(data)
 
@@ -359,7 +372,7 @@ def sendMessage(request, app_user):
     return render(request, 'rango/index.html', {'message': message})
 
 @login_required
-def getMmessages(request, app_user):
+def getMessages(request, app_user):
     context_dict = {}
     inbox = Messages.objects.filter(to = app_user)
     sent = Messages.objects.filter(sender = app_user)
@@ -368,7 +381,7 @@ def getMmessages(request, app_user):
     context_dict["inbox"] = inbox
     context_dict["sent"] = sent
     context_dict["thread"] = thread
-
+    print(context_dict)
     return context_dict
 
 ######################## FullCallendar ########################

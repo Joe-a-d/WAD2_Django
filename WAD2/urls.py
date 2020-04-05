@@ -19,6 +19,7 @@ from django.urls import path, include
 from WAD2app import views
 
 urlpatterns = [
+    path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('WAD2App/', include("WAD2app.urls")),
 ]

@@ -183,7 +183,10 @@ def user_logout(request):
 
 @login_required
 def profile(request):
-    return render(request, 'wad2App/users/profile.html')
+    context_dict = {}
+    profile = UserProfile.objects.get(user = request.user)
+    context_dict['profile'] = profile
+    return render(request, 'wad2App/users/profile.html', context_dict)
 
 @staff_member_required
 def dashboard(request):

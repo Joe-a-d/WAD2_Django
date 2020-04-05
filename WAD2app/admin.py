@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from WAD2app.models import *
 
 admin.site.register(UserPref)

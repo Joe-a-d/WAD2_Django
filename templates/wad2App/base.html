@@ -77,6 +77,14 @@
                     {% if user.is_authenticated %}
                     <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block" id="login"
                         href="{% url 'WAD2app:logout' %}" id="logout">Logout</a>
+                        {% if user.is_staff %}
+                        <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block" id="login"
+                            href="{% url 'WAD2app:dashboard' %}" id="logout">Dashboard</a>
+                        {% else %}
+                        <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block" id="login"
+                            href="{% url 'WAD2app:profile' %}" id="logout">Profile</a>
+                        {% endif %}
+
                     {% else %}
                     <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block" id="login"
                         href="{% url 'WAD2app:login' %}" id="login">Login</a>

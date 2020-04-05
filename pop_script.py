@@ -9,9 +9,8 @@ from factories import *
 # terribly hacky pop all vs args, -10pt to grifindor
 
 models = sys.argv
-n = int(models[1].replace("n=",""))
+n = int(models[1])
 models = models[2:]
-print(models)
 if not models:
     UserFactory.create_batch(size=n, username=factory.Sequence(lambda n: 'username{0}'.format(n)), password="pwd")
     ProfileFactory.create_batch(size=n)
@@ -24,22 +23,31 @@ if not models:
     MessageFactory.create_batch(size=n)
 if 'user' in models:
     UserFactory.create_batch(size=n, username=factory.Sequence(lambda n: 'username{0}'.format(n)), password="pwd")
+
 if 'profile' in models:
     ProfileFactory.create_batch(size=n)
+
 if 'preferences' in models:
     PrefFactory.create_batch(size=n)
+
 if 'life' in models:
     LifeFactory.create_batch(size=n)
+
 if 'dog' in models:
     DogFactory.create_batch(size=n)
+
 if 'app' in models:
     ApplicationFactory.create_batch(size=n)
+
 if 'event' in models:
     EventFactory.create_batch(size=n)
+
 if 'scores' in models:
     ScoresFactory.create_batch(size=n)
+
 if 'messages' in models:
     MessageFactory.create_batch(size=n)
+
 
 
 
@@ -55,4 +63,4 @@ if 'messages' in models:
 #     try:
 #         factories.c.create_batch(size=50)
 #     except:
-#         print(f"{obj}")
+#

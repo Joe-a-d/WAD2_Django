@@ -14,7 +14,7 @@ class UserProfile(models.Model):
     postcode = models.CharField( max_length=10)
     building = models.IntegerField( validators=[MaxValueValidator(1000)])
     address = models.CharField( max_length=300)
-    phone = models.IntegerField()
+    phone = models.CharField(max_length=20)
 
 
 

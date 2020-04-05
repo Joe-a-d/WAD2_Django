@@ -20,34 +20,6 @@
 </div>
 
 
-
-{% for obj in filter.qs %}
-
-<div class='row px-auto'>
-    {% for obj in filter.qs %}
-    <div class='col my-3'>
-        <a class="card" href="{% url 'WAD2app:dog' %}"
-            style="width: 18rem; border-radius: 20px; box-shadow: 0 10px 40px 5px rgba(26, 26, 26, 0.397); border-style: none;">
-            <img class="card-img-top" src="{% static 'wad2App/img/doglist_dogpic.png' %}"
-                style="border-top-left-radius: 20px; border-top-right-radius: 20px">
-            <div class="card-body">
-                <h3 class="card-title">{{ obj.name }}</h3>
-                <p class="card-body">Breed, age, and more</p>
-            </div>
-        </a>
-    </div>
-    {% endfor %}
-
-</div>
-
-{% endfor %}
-
-
-{% endblock %}
-
-
-
-
 <div class="row" style="margin-bottom:2%">
     <div class="col-auto my-auto">
         <h5>Sort by</h5>
@@ -77,3 +49,43 @@
     </div>
 </div>
 <br />
+
+
+{% for dog in dogs %}
+<div class='row px-auto'>
+    <div class='col my-3'>
+        <a class="card" href="{% url 'WAD2app:dog' dog.id %}"
+            style="width: 18rem; border-radius: 20px; box-shadow: 0 10px 40px 5px rgba(26, 26, 26, 0.397); border-style: none;">
+            <img class="card-img-top" src="{% static 'wad2App/img/doglist_dogpic.png' %}"
+                style="border-top-left-radius: 20px; border-top-right-radius: 20px">
+            <div class="card-body">
+                <h3 class="card-title">{{ dog.name }}</h3>
+                <p class="card-body">Breed, age, and more</p>
+            </div>
+        </a>
+    </div>
+{% endfor %}
+
+<!--{% for obj in filter.qs %}
+
+<div class='row px-auto'>
+    {% for obj in filter.qs %}
+    <div class='col my-3'>
+        <a class="card" href="{% url 'WAD2app:dog' %}"
+            style="width: 18rem; border-radius: 20px; box-shadow: 0 10px 40px 5px rgba(26, 26, 26, 0.397); border-style: none;">
+            <img class="card-img-top" src="{% static 'wad2App/img/doglist_dogpic.png' %}"
+                style="border-top-left-radius: 20px; border-top-right-radius: 20px">
+            <div class="card-body">
+                <h3 class="card-title">{{ dog.name }}</h3>
+                <p class="card-body">Breed, age, and more</p>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endfor %}
+-->
+
+{% endblock %}

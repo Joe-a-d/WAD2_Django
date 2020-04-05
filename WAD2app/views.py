@@ -223,8 +223,9 @@ def dog(request, pk):
     return render(request, 'wad2App/dogs/dog.html', context={'dog': dog, 'dateForm': dateForm, 'user_filter': user_filter})
 
 def dogs(request):
-    f = DogFilter(request.GET, queryset=Dog.objects.all())
-    return render(request, 'wad2App/dogs/dogs.html', {'filter': f})
+    #f = DogFilter(request.GET, queryset=Dog.objects.all())
+    dogs = Dog.objects.all()
+    return render(request, 'wad2App/dogs/dogs.html', {'dogs':dogs})#, {'filter': f})
 
 @login_required
 def showApplication(request, id):

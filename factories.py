@@ -7,6 +7,7 @@ from WAD2app.models import *
 class UserFactory(factory.DjangoModelFactory):
     class Meta:
         model = User
+        django_get_or_create = ('username',)
 
     username = factory.Sequence(lambda n: 'username{0}'.format(n))
 
@@ -20,7 +21,7 @@ class ProfileFactory(factory.DjangoModelFactory):
         model = UserProfile
         django_get_or_create = ('user',)
 
-    user = factory.RelatedFactory(UserFactory)
+    user = factory.SubFactory(UserFactory)
     postcode = factory.Faker('postcode')
     building = factory.Faker('building_number')
     address = factory.Faker('street_name')
@@ -31,7 +32,7 @@ class PrefFactory(factory.DjangoModelFactory):
         model = UserPref
         django_get_or_create = ('user',)
 
-    user = factory.RelatedFactory(ProfileFactory)
+    user = factory.SubFactory(ProfileFactory)
     breed = factory.Faker('first_name')
     size = factory.fuzzy.FuzzyChoice(SIZES, getter=lambda c: c[0])
     age = factory.fuzzy.FuzzyChoice(AGES, getter=lambda c: c[0])
@@ -45,7 +46,7 @@ class LifeFactory(factory.DjangoModelFactory):
         model = UserLife
         django_get_or_create = ('user',)
 
-    user = factory.RelatedFactory(ProfileFactory)
+    user = factory.SubFactory(ProfileFactory)
     lifestyle = factory.fuzzy.FuzzyChoice(UserLife.pENERGY, getter=lambda c: c[0])
     timeAway = random.randint(0, 30)
     house = factory.fuzzy.FuzzyChoice(UserLife.HOUSES, getter=lambda c: c[0])
@@ -72,15 +73,15 @@ class DogFactory(factory.DjangoModelFactory):
     energyLevel = factory.fuzzy.FuzzyChoice(ENERGY, getter=lambda c: c[0])
     isAvailable = factory.Faker('boolean')
     isReserved = factory.Faker('boolean')
-    # scoresField = factory.SubFactory(PrefFactory)
-    # favourite = factory.SubFactory(UserFactory)
+    scoresField = factory.RelatedFactory(PrefFactory)
+    favourite = factory.RelatedFactory(UserFactory)
 
 class ApplicationFactory(factory.DjangoModelFactory):
     class Meta:
         model = Application
         django_get_or_create = ('user',)
 
-    user = factory.SubFactory(ProfileFactory)
+    user = factory.SubFactory(UserFactory)
     dog = factory.SubFactory(DogFactory)
 
     created_at = factory.Faker('date_time_this_year', before_now=False)
@@ -92,13 +93,13 @@ class EventFactory(factory.DjangoModelFactory):
     class Meta:
         model = Event
 
-
-    TYPES = [("FIRST", "First Visit"), ("COURSE", "Course"), ("GEN", "General Visit"), ("ADOPT", "Pickup Pet")]
-
     application = factory.SubFactory(ApplicationFactory)
-    type = factory.fuzzy.FuzzyChoice(SIZES, getter=lambda c: c[0])
+    type = factory.fuzzy.FuzzyChoice(TYPES, getter=lambda c: c[0])
     start = factory.Faker('date_time_this_year', )
     end = factory.Faker('date_time_this_year', before_now=False)
+
+    # ignore dynamic save
+    title = factory.Faker('first_name')
 
 
 class ScoresFactory(factory.DjangoModelFactory):
@@ -106,7 +107,7 @@ class ScoresFactory(factory.DjangoModelFactory):
         model = Scores
         # unique_together=[('user', 'dog')]
 
-    user = factory.SubFactory(UserFactory)
+    user = factory.SubFactory(PrefFactory)
     dog = factory.SubFactory(DogFactory)
     score = random.randint(0, 5)
 

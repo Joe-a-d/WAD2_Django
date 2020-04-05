@@ -86,13 +86,14 @@ class Event(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField() #fix end, 30min gap, start returns datetime.datetime
 
-    def save(self, *args, **kwargs):
-        self.title = f"{application.user.name} : {application.dog.name}"
-        subject = "Your scheduled visit to RightPet"
-        message = f"Your visit was scheduled for {self.start} ."
-        mail = self.application.user.email
-        send_mail(subject, message, email)
-        super().save(*args, **kwargs)
+# for pop
+    # def save(self, *args, **kwargs):
+    #     self.title = f"{application.user.name} : {application.dog.name}"
+    #     subject = "Your scheduled visit to RightPet"
+    #     message = f"Your visit was scheduled for {self.start} ."
+    #     mail = self.application.user.email
+    #     send_mail(subject, message, email)
+    #     super().save(*args, **kwargs)
 
 class Scores(models.Model):
     user = models.ForeignKey(UserPref, on_delete=models.CASCADE, related_name="hasScores")

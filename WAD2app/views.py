@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.core.mail import send_mail
+from django.core.mail import send_mail, BadHeaderError
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import reverse
@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.hashers import make_password
 from django.conf import settings
+from WAD2.settings import EMAIL_HOST_USER
 from .forms import *
 from .filters import *
 from .models import *
@@ -27,16 +28,15 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             subject = form.cleaned_data['subject']
-            email = form.cleaned_data['email']
+            email = form.cleaned_data['sender']
             message = form.cleaned_data['message']
-            form.save()
             try:
-                send_mail(subject, message, email)
+                send_mail(subject, message, email, [EMAIL_HOST_USER])
+                messages.success(request, 'Thanks for getting in touch!')
+                return redirect('WAD2app:contact')
             except BadHeaderError:
                 messages.error(request, 'Bad header')
                 return render(request, 'contact.html', {'form': form})
-            messages.success(request, 'Thanks for getting in touch!')
-            return redirect('WAD2app:contact')
     return render(request, "wad2App/contact.html", {'form': form})
 
 ##################### USER ####################

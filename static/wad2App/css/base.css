@@ -200,3 +200,37 @@ li {
     display: none;
   }
 }
+
+
+.success {
+	background-color: #c9f4b9;
+	color: #52b52b;
+}
+.error {
+	background-color: #F2C2CC;
+	color: #E63235;
+
+}
+
+#messages-container {
+	width: 100%;
+	height: 25px;
+	top: 0px;
+	position: absolute;
+    border-style: none;
+    z-index: 100;
+}
+html {
+	overflow-x: hidden;
+}
+ul {
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+li {
+	display: block;
+    width:100%;
+	padding: 8px;
+}

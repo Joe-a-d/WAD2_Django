@@ -40,6 +40,7 @@
 
 
 <body>
+    <div id="messages-container">
     {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -47,6 +48,7 @@
             {% endfor %}
     </ul>
     {% endif %}
+</div>
     <div class="container" style="margin-top: 5%">
     {% block content %}{% endblock %}
 

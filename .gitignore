@@ -43,3 +43,4 @@ pyre/
 .DS_Store
 WAD2/secrets.py
 *.ipynb
+.migrations

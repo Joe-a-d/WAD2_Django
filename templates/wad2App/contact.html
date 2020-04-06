@@ -37,8 +37,8 @@
 
  {% csrf_token %}
  {{ form|crispy }}
- <a type="button" class="btn btn-primary d-none d-lg-block d-xl-block"
-     href="{% url 'WAD2app:contact' %}" >Submit</a>
+ <input type="submit" class="btn btn-primary d-none d-lg-block d-xl-block"
+     href="{% url 'WAD2app:contact' %}" />
 </form>
 
 {% endblock %}

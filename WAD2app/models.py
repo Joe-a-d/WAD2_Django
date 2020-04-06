@@ -10,7 +10,8 @@ import datetime
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile")
-    image = models.ImageField (upload_to='profileImages' , blank=True, null=True, default=settings.STATIC_URL+'profileImg')
+    name = models.CharField(max_length=30,)
+    image = models.ImageField (upload_to='profileImages' , blank=True, null=True, default=settings.STATIC_URL+'img/profileImg.png')
     postcode = models.CharField( max_length=10)
     building = models.IntegerField( validators=[MaxValueValidator(1000)])
     address = models.CharField( max_length=300)

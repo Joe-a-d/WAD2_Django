@@ -171,7 +171,7 @@ def user_login(request):
                 messages.error(request, "We couldn't log you in. Please contact us directly")
                 return redirect('wad2App/about.html')
         else:
-            print(f'Invalid login details: {username}, {password}')
+            messages.error(request,'Invalid login details.')
             return render(request, 'wad2App/users/login.html',)
     else:
         return render(request, 'wad2App/users/login.html',)

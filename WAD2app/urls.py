@@ -19,6 +19,7 @@ urlpatterns = [
     path('dogs/', views.dogs, name='dogs'),
     path('newDog/', views.addDog, name='addDog'),
     path('dogs/<int:pk>/', views.dog, name='dog'),
+    path('favourite', views.favourite , name="favourite"),
     path('application/<id>', views.showApplication, name='application'),
     path('change-password/', auth_views.PasswordChangeView.as_view(template_name='changePassword.html'), name='changePassword'),
 

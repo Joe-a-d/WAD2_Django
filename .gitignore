@@ -44,3 +44,4 @@ pyre/
 WAD2/secrets.py
 *.ipynb
 .migrations
+migrations

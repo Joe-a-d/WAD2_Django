@@ -119,9 +119,6 @@ def registerProfile(request, id):
 
     return render(request, 'wad2App/users/registerProfile.html',context = { "pref_form": pref_form , "life_form":life_form , "id":id})
 
-
-
-
 def editProfile(request):
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -153,8 +150,10 @@ def donate(request):
     return render(request, "wad2App/donate.html")
 
 def user_login(request):
-    #hides login view if already logged in, in case of manual attempt to access
-    if request.user.is_authenticated:
+    if request.user.is_authenticated :
+        if request.user.is_staff:
+            messages.error(request, "You are already logged in")
+            return redirect(reverse('WAD2app:dashboard'))
         messages.error(request, "You are already logged in")
         return redirect(reverse('WAD2app:profile'))
 
@@ -165,6 +164,8 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request, user)
+                if user.is_staff:
+                    return redirect('WAD2app:dashboard')
                 return redirect('WAD2app:profile')
             else:
                 messages.error(request, "We couldn't log you in. Please contact us directly")
@@ -272,7 +273,7 @@ def favourite(request):
             added = user in dog.favourites.all()
         else:
             dog.favourites.delete(user)
-            removed = user in dog.favourites.all()
+            removed = user not in dog.favourites.all()
     except:
         added = False
 

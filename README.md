@@ -14,14 +14,6 @@
 
 1. Create a [virtual environment](https://docs.python-guide.org/dev/virtualenvs/#virtualenvwrapper)
 2. Clone this repository to a folder within your newly created environment
-3. Install requirements.txt
- 1. `cd /your/virtualenv/bin`
- 2. `pip install -r /path/to/requirements.txt`
-
-
-
-##To-Do
-
-- Introduce project
-- Link to pythonAnywhere
-- Add complete instructions to run locally
+3. Install requirements.txt `pip install -r requirements.txt`
+4. Run the population script `python pop_script.py n` , where `n` represents the number of model instances you want to create
+5. Apply migrations `python manage.py migrate`

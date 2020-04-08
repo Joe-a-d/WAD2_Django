@@ -34,7 +34,7 @@
             <div class="card-body">
                 {% for key, val in profile|get_fields %}
                     {% if key != "image" and key != "user" and key != "id" %}
-                <li class="card-body dog-details"><b>{{ key|title }}</b> : {{ val }}</li>
+                <li class="card-body dog-details"><b>{{ key|title }}</b> : {{ get_val_display }}</li>
                     {% endif %}
                 {% endfor %}
             </div>
